@@ -5,3 +5,18 @@
 
 asm_entry:
     # TODO: You have to implement the xor_trick function with assembly language
+    # arr* -> a0, size -> a1
+    li t0, 0
+    li t1, 0
+
+loop:
+    bge t0, a1, end
+    slli t2, t1, 2
+    add t2, a0, t2
+    lw t3, 0(t2)
+    xor  t0, t3, t0 
+    addi t1, t1, 1
+    j loop
+end:
+    mv a0, t0  # the return value
+    j end
