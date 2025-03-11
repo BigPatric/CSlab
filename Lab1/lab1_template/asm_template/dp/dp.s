@@ -11,13 +11,14 @@ asm_dp:
     li t0, 1 # i 
     li t1, 0 # j
     li t2, 1 # const 1
+    li six, 6 # const 6
     addi a1, a1, 1 # t+1
     
 loop1:
     bge t0, t1, end
     j loop2
 loop2:
-    bge t1, 6, ADDI
+    bge t1, six, ADDI
     slli t11, t1, 1 # j * 2
     add t2, a0, t11 # arr + j * 2
     lw t2, 0(t2) # arr[j]
