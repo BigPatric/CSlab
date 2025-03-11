@@ -11,34 +11,34 @@ asm_dp:
     li t0, 1 # i 
     li t1, 0 # j
     li t2, 1 # const 1
-    li six, 6 # const 6
+    li t3, 6 # const 6
     addi a1, a1, 1 # t+1
     
 loop1:
-    bge t0, t1, end
+    blt t0, a1, loop2
     j loop2
 loop2:
-    bge t1, six, ADDI
-    slli t11, t1, 1 # j * 2
-    add t2, a0, t11 # arr + j * 2
-    lw t2, 0(t2) # arr[j]
-    sub t3, t1, t0 # j - i
-    bge x0, t3, ADDJ # if 0 >= j - i -> j++
+    blt t1, t3, loop2
+    slli t4, t1, 1 # j * 2
+    add t5, a0, t4 # arr + j * 2
+    lw t6, 0(t5) # arr[j]
+    sub t7, t1, t0 # j - i
+    blt x0, t7, ADDJ # if 0 < j - i -> j++
     
-    add t22, a2, t11 # arr2 + j * 2 + 1
-    add t11, t11, t2
-    add t2, a0, t11 # arr + j * 2 + 1
-    lw t2, 0(t2) # arr[j+1]
+    add t8, a2, t1 # arr2 + j
+    add t9, t4, t6
+    add t10, a0, t9 # arr + j * 2 + 1
+    lw t11, 0(t10) # arr[j+1]
 
-    add t3, a2, t3 # arr2 + i - arr[j]
-    lw t4, 0(t3) # arr2[i - arr[j]]
+    add t12, a2, t0 # arr2 + i - arr[j]
+    lw t13, 0(t12) # arr2[i - arr[j]]
 
-    add t5, a2, t1 # arr2 + j
-    lw t6, 0(t5) # arr2[j]
+    add t14, a2, t1 # arr2 + j
+    lw t15, 0(t14) # arr2[j]
  
-    add t7, t4, t2 # arr2[i - arr[j]] + arr2[j]
-    bge t6, t7, ADDJ 
-    sw t7, 0(t5) # 將 t7 的值存回 arr2[j]
+    add t16, t13, t11 # arr2[i - arr[j]] + arr2[j]
+    bge t15, t16, ADDJ 
+    sw t16, 0(t14) # 將 t16 的值存回 arr2[j]
     
     j ADDJ
 ADDI:
