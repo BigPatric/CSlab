@@ -10,7 +10,7 @@ asm_dp:
     # arr* -> a0, t -> a1, arr2* -> a2
     li t0, 1 # i 
     li t1, 0 # j
-    
+    li one, 1 # const 1
     add a1, 1, a1 # t+1
     
 loop1:
@@ -22,30 +22,30 @@ loop2:
     add t2, a0, t11 # arr + j * 2
     lw t2, 0(t2) # arr[j]
     sub t3, t1, t0 # j - i
-    bge 0, t3, ADDJ# if 0 >= i-arr[j] -> j++
+    bge x0, t3, ADDJ # if 0 >= j - i -> j++
     
-    add t22, a2, t11 # arr + j * 2 + 1
-    add t11, 1, t11
+    add t22, a2, t11 # arr2 + j * 2 + 1
+    add t11, one, t11
     add t2, a0, t11 # arr + j * 2 + 1
     lw t2, 0(t2) # arr[j+1]
 
-    add t3, a2, t3 # arr2 + i-arr[j]
-    lw t4, 0(t3) # arr2[i-arr[j]]
+    add t3, a2, t3 # arr2 + i - arr[j]
+    lw t4, 0(t3) # arr2[i - arr[j]]
 
     add t5, a2, t1 # arr2 + j
     lw t6, 0(t5) # arr2[j]
  
-    add t7, t4, t2 # arr2[i-arr[j]] + arr2[j]
+    add t7, t4, t2 # arr2[i - arr[j]] + arr2[j]
     bge t6, t7, ADDJ 
-    lw t6, 0(t7)
+    sw t7, 0(t5) # 將 t7 的值存回 arr2[j]
     
     j ADDJ
 ADDI:
-    add t0, 1, t0
+    add t0, one, t0
     li t1, 0 # reset j
     j loop1
 ADDJ:
-    add t1, 1, t1
+    add t1, one, t1
     j loop2
 end:
     mv a0, t0
