@@ -16,9 +16,11 @@ asm_dp:
     
 loop1:
     blt t0, a1, loop2
-    j loop2
+    j end
 loop2:
-    blt t1, t3, loop2
+    blt t1, t3, inner_loop
+    j ADDI
+inner_loop:
     slli t4, t1, 1 # j * 2
     add t5, a0, t4 # arr + j * 2
     lw t6, 0(t5) # arr[j]
