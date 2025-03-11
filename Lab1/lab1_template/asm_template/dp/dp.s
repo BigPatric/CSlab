@@ -10,8 +10,8 @@ asm_dp:
     # arr* -> a0, t -> a1, arr2* -> a2
     li t0, 1 # i 
     li t1, 0 # j
-    li one, 1 # const 1
-    add a1, 1, a1 # t+1
+    li t2, 1 # const 1
+    addi a1, a1, 1 # t+1
     
 loop1:
     bge t0, t1, end
@@ -25,7 +25,7 @@ loop2:
     bge x0, t3, ADDJ # if 0 >= j - i -> j++
     
     add t22, a2, t11 # arr2 + j * 2 + 1
-    add t11, one, t11
+    add t11, t11, t2
     add t2, a0, t11 # arr + j * 2 + 1
     lw t2, 0(t2) # arr[j+1]
 
@@ -41,11 +41,11 @@ loop2:
     
     j ADDJ
 ADDI:
-    add t0, one, t0
+    addi t0, t0, 1
     li t1, 0 # reset j
     j loop1
 ADDJ:
-    add t1, one, t1
+    addi t1, t1, 1
     j loop2
 end:
     mv a0, t0
