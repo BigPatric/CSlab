@@ -8,48 +8,41 @@ asm_dp:
     # HINT: You might need to use "slli(shift left)" to implement multiplication
     # HINT: You might need to be careful of calculating the memory address you store in your register
     # arr* -> a0, t -> a1, arr2* -> a2
-    li t0, 1 # i 
-    li t1, 0 # j
-    li t2, 1 # const 1
-    li t3, 6 # const 6
-    addi a1, a1, 1 # t+1
-    
+    li t0, 1 # i
+    li t1, 0 # j    
+    addi a1, a1, 1
 loop1:
-    blt t0, a1, loop2
-    j end
-loop2:
-    blt t1, t3, inner_loop
-    j ADDI
-inner_loop:
-    slli t4, t1, 1 # j * 2
-    add t5, a0, t4 # arr + j * 2
-    lw t6, 0(t5) # arr[j]
-    sub t7, t1, t0 # j - i
-    blt x0, t7, ADDJ # if 0 < j - i -> j++
-    
-    add t8, a2, t1 # arr2 + j
-    add t9, t4, t6
-    add t10, a0, t9 # arr + j * 2 + 1
-    lw t11, 0(t10) # arr[j+1]
-
-    add t12, a2, t0 # arr2 + i - arr[j]
-    lw t13, 0(t12) # arr2[i - arr[j]]
-
-    add t14, a2, t1 # arr2 + j
-    lw t15, 0(t14) # arr2[j]
- 
-    add t16, t13, t11 # arr2[i - arr[j]] + arr2[j]
-    bge t15, t16, ADDJ 
-    sw t16, 0(t14) # 將 t16 的值存回 arr2[j]
-    
-    j ADDJ
-ADDI:
-    addi t0, t0, 1
-    li t1, 0 # reset j
-    j loop1
-ADDJ:
-    addi t1, t1, 1
+    bge t0, a1, end
     j loop2
+
+loop2:
+    bge t1, 6, ADJ
+    # t2 for 2*j
+    # t3 for arr[2*j]
+    # t4 for arr[2*j+1]
+    # t5 for arr2[i]
+    slli t2, t1, 1 # 2*j
+    add t3, a0, t2 # arr[2*j]
+    lw t3, 0(t3)    # arr[2*j]
+    lw t4, 4(t3)    # arr[2*j+1]
+    sub t3, t0, t3  #i - arr[2*j]
+    bge zero, t3, ADJ
+
+    add t2, a1, t0 # arr2[i]
+    lw t5, 0(t2)    # arr2[i]   
+    add t3, a2, t3 # arr2 + i - arr[2*j]
+    lw t6, 0(t3)    # arr2[i-arr[2*j]]
+    add t6, t6, t4  # arr2[i-arr[2*j]] + arr[2*j+1]
+    bge t2, t6, ADJ
+    sw t6, 0(t2)    # arr2[i] = arr2[i-arr[2*j]] + arr[2*j+1]   
+
+    j ADJ
+ADI:
+    addi t0, t0, 1
+    j loop1
+ADJ:
+    addi t1, t1, 1
+    j loop2 
+
 end:
-    mv a0, t0
     ret
