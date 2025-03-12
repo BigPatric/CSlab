@@ -1,48 +1,49 @@
-# extern void entry(int *arr, int t, int *arr2)
-
 .section .text
 .global asm_dp
 
 asm_dp:
-    # TODO: You have to implement dynamic programming with assembly code
-    # HINT: You might need to use "slli(shift left)" to implement multiplication
-    # HINT: You might need to be careful of calculating the memory address you store in your register
-    # arr* -> a0, t -> a1, arr2* -> a2
-    li t0, 1 # i
-    li t1, 0 # j    
-    addi a1, a1, 1
+    li t0, 1      # i = 1
+    li t1, 0      # j = 0
+    addi a1, a1, 1 # t = t + 1 
+
 loop1:
     bge t0, a1, end
-    j loop2
+    li t1, 0      # 重置 j = 0
 
 loop2:
-    bge t1, 6, ADJ
-    # t2 for 2*j
-    # t3 for arr[2*j]
-    # t4 for arr[2*j+1]
-    # t5 for arr2[i]
-    slli t2, t1, 1 # 2*j
-    add t3, a0, t2 # arr[2*j]
-    lw t3, 0(t3)    # arr[2*j]
-    lw t4, 4(t3)    # arr[2*j+1]
-    sub t3, t0, t3  #i - arr[2*j]
-    bge zero, t3, ADJ
+    li t2, 6
+    bge t1, t2, ADI
+    # 計算 arr[2*j] 和 arr[2*j+1]
+    slli t2, t1, 1  # 2*j
+    slli t2, t2, 2  # (2*j) * 4 (轉換為 byte 位址)
+    add t3, a0, t2  # 計算 arr + (2*j)
+    lw t4, 0(t3)    # arr[2*j]
+    lw t5, 4(t3)    # arr[2*j+1]
 
-    add t2, a1, t0 # arr2[i]
-    lw t5, 0(t2)    # arr2[i]   
-    add t3, a2, t3 # arr2 + i - arr[2*j]
-    lw t6, 0(t3)    # arr2[i-arr[2*j]]
-    add t6, t6, t4  # arr2[i-arr[2*j]] + arr[2*j+1]
-    bge t2, t6, ADJ
-    sw t6, 0(t2)    # arr2[i] = arr2[i-arr[2*j]] + arr[2*j+1]   
+    sub t6, t0, t4  # i - arr[2*j]
+    bge zero, t6, ADJ  # 如果 i - arr[2*j] < 0，跳過
 
-    j ADJ
-ADI:
-    addi t0, t0, 1
-    j loop1
+    # 讀取 arr2[i] 和 arr2[i - arr[2*j]]
+    slli t2, t0, 2  # i * 4
+    add t2, a2, t2  # 計算 arr2 + i
+    lw t3, 0(t2)    # 讀取 arr2[i]
+
+    slli t6, t6, 2  # (i - arr[2*j]) * 4
+    add t6, a2, t6  # 計算 arr2 + (i - arr[2*j])
+    lw t4, 0(t6)    # 讀取 arr2[i - arr[2*j]]
+
+    add t4, t4, t5  # arr2[i - arr[2*j]] + arr[2*j+1]
+    bge t3, t4, ADJ  # 如果 arr2[i] >= 計算值，跳過更新
+
+    sw t4, 0(t2)    # arr2[i] = arr2[i - arr[2*j]] + arr[2*j+1]
+
 ADJ:
     addi t1, t1, 1
     j loop2 
+
+ADI:
+    addi t0, t0, 1
+    j loop1
 
 end:
     ret
