@@ -6,8 +6,8 @@ asm_dp:
     addi a1, a1, 1    # t = t + 1 
 
 loop1:
-    bge t0, a1, end   # 如果 i >= t+1，結束
-    li t1, 0          # 重置 j = 0
+    bge t0, a1, end   # if i >= t+1，end
+    li t1, 0          # reset j = 0
 
 loop2:
     li t2, 6
