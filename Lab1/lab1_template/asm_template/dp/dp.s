@@ -9,14 +9,14 @@ asm_dp:
     # HINT: You might need to be careful of calculating the memory address you store in your register
     # arr* -> a0, t -> a1, arr2* -> a2
     li t0, 1 # i
-    li t1, 0 # j    
+    li t1, 0 # j  
     addi a1, a1, 1
 loop1:
     bge t0, a1, end
     j loop2
 
 loop2:
-    bge t1, 6, ADJ
+    beq t1, zero, ADJ
     # t2 for 2*j
     # t3 for arr[2*j]
     # t4 for arr[2*j+1]
@@ -39,6 +39,7 @@ loop2:
     j ADJ
 ADI:
     addi t0, t0, 1
+    li t1, 0
     j loop1
 ADJ:
     addi t1, t1, 1
