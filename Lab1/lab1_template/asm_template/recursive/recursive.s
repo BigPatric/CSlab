@@ -8,7 +8,7 @@ fibo_asm:
     bge a0, t0, fibo # >= 2
     ret              # if e < 2 -> return n ie: 0 or 1
 fibo:
-#   use 64 bit registers (sign-extention)
+#   use 64 bit registers for storing the return address and the saved registers
     addi sp, sp, -24
     sd ra, 0(sp)
     sd s0, 8(sp)
