@@ -4,30 +4,27 @@
 .global fibo_asm
 
 fibo_asm:
-    addi sp, sp, -8    # make space (change 32 to whatever space you want)
-    sw ra, 4(sp)      # save ra
-    sw s0, 0(sp)       # save s0
+    li t0, 2
+    bge a0, t0, fibo # >= 2
+    ret              # if e < 2 -> return n ie: 0 or 1
+fibo:
+    addi sp, sp, -24
+    sd ra, 0(sp)
+    sd s0, 8(sp)
+    sd s1, 16(sp)
 
-# /////////////////////////////////////////////////////////////////
-    beq a0, zero, end1  # if term == 0, return 0
-    li t1, 1            # if term == 1, return 1
-    beq a0, t1, end2
+    mv s0, a0
+    addi a0, s0, -1
+    call fibo_asm
 
-    subi a0, a0, 1     # term - 1
-    jal ra, fibo_asm    # fibo_asm(term - 1)
+    mv s1, a0
+    addi a0, s0, -2
+    call fibo_asm
 
-    add a0, t0, a0  # term + fibo_asm(term - 1)
-    
-# /////////////////////////////////////////////////////////////////
-    lw ra, 4(sp)       # load ra
-    lw s0, 0(sp)       # load s0
-    addi sp, sp, 8     # release space
-    jr ra               # return
+    add a0, s1, a0
 
-end1:
-    li a0, 0
+    lw ra, 0(sp)
+    lw s0, 8(sp)
+    lw s1, 16(sp)
+    addi sp, sp, 24
     ret
-end2:
-    li a0, 1
-    ret
-
