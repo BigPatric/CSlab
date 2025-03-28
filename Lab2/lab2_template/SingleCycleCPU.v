@@ -21,7 +21,7 @@ wire [3:0] alu_control;
 wire [2:0] funct3;
 wire [6:0] opcode;
 wire funct7;
-wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write;
+wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write, zero;
 wire [1:0] mem_to_reg; 
 wire [1:0] alu_op;
 wire [1:0] write_data_sel;
@@ -33,7 +33,7 @@ wire [31:0] shifted_imm;
 assign opcode = instruction[6:0];
 assign funct3 = instruction[14:12];
 assign funct7 = instruction[30];
-
+assign branch_eq = zero;
 assign write_data_sel = (mem_to_reg == 2'b01) ? 2'b01: 2'b00; // ALU result or memory data
 // Program Counter
 PC m_PC(
@@ -147,7 +147,7 @@ ALU m_ALU(
     .A(reg_read_data1),
     .B(alu_src_b),
     .ALUOut(alu_result),
-    .zero(branch_eq)
+    .zero(zero)
 );
 
 // Data Memory
