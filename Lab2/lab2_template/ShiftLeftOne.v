@@ -7,7 +7,7 @@ module ShiftLeftOne (
     reg [31:0] out;
     assign o = out;
     always @(*) begin
-        out = i <<< 1;
+        out <= i <<< 1;
     end
 
 endmodule
