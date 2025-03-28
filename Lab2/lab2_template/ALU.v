@@ -9,7 +9,7 @@ module ALU (
 
     // TODO: implement your ALU here
     // Hint: you can use operator to implement
-
+    assign zero = (ALUOut==0)?1:0;
     always @(*)begin
         case(ALUctl)
             4'b0000: ALUOut = A & B; // AND
@@ -19,8 +19,8 @@ module ALU (
             4'b0111: ALUOut = (A < B) ? 1 : 0; // SLT
             default: ALUOut = 0; // Default case
         endcase
-
     end 
+    
 
 endmodule
 

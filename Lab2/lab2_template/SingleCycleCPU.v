@@ -16,7 +16,7 @@ module SingleCycleCPU (
 
 
 PC m_PC(
-    .clk(),
+    .clk(clk),
     .rst(),
     .pc_i(),
     .pc_o()

@@ -5,7 +5,7 @@ module ImmGen (
 );
     // ImmGen generate imm value base opcode
     always @(*)begin
-        imm <= $signed(inst);
+        imm = $signed(inst);
     end
 endmodule
 
