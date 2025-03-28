@@ -25,9 +25,11 @@ wire [3:0] alu_control;
 wire [2:0] funct3;
 wire [6:0] opcode;
 wire funct7;
-wire branch_eq, branch_lt, pc_sel, mem_read, mem_write, alu_src, reg_write, mem_to_reg;
+wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write, mem_to_reg;
 wire [1:0] alu_op;
 wire [1:0] write_data_sel;
+wire [1:0] pc_sel;
+
 
 assign opcode = instruction[6:0];
 assign funct3 = instruction[14:12];

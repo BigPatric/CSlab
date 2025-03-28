@@ -4,11 +4,7 @@ module ShiftLeftOne (
 );
 
     // TODO: implement your shift left 1 here
-    reg [31:0] out;
-    assign o = out;
-    always @(*) begin
-        out <= i <<< 1;
-    end
+    assign o = {i[30:0],0};
 
 endmodule
 
