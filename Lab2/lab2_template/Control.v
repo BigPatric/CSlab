@@ -21,19 +21,19 @@ module Control (
             
     always @(*)begin
         case(opcode)
-            7'b0110011: ctrl <= 10'b00_0_00_10_0_0_1; // R-type
-            7'b0000011: ctrl <= 10'b00_1_01_00_0_1_1; // Load (I-type)
-            7'b0100011: ctrl <= 10'b00_0_00_00_1_1_0; // Store (S-type)
+            7'b0110011: ctrl = 10'b00_0_00_10_0_0_1; // R-type
+            7'b0000011: ctrl = 10'b00_1_01_00_0_1_1; // Load (I-type)
+            7'b0100011: ctrl = 10'b00_0_00_00_1_1_0; // Store (S-type)
             7'b1100011: begin // Branch (B-type)
                 if (BrEq || BrLT)
-                    ctrl <= 10'b01_0_00_01_0_0_0; // Branch if equal / less than
+                    ctrl = 10'b01_0_00_01_0_0_0; // Branch if equal / less than
                 else
-                    ctrl <= 10'b00_0_00_00_0_0_0; // Default
+                    ctrl = 10'b00_0_00_00_0_0_0; // Default
             end
-            7'b0010011: ctrl <= 10'b00_0_00_11_0_1_1; // Immediate (I-type)
-            7'b1101111: ctrl <= 10'b10_0_10_00_0_0_1; // JAL (J-type)
-            7'b1100111: ctrl <= 10'b10_0_10_00_0_1_1; // JALR (I-type)
-            default:    ctrl <= 10'b00_0_00_00_0_0_0; // Default case
+            7'b0010011: ctrl = 10'b00_0_00_11_0_1_1; // Immediate (I-type)
+            7'b1101111: ctrl = 10'b10_0_10_00_0_0_1; // JAL (J-type)
+            7'b1100111: ctrl = 10'b10_0_10_00_0_1_1; // JALR (I-type)
+            default:    ctrl = 10'b00_0_00_00_0_0_0; // Default case
         endcase
     end
 endmodule

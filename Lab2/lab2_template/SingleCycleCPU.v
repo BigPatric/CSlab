@@ -22,16 +22,19 @@ wire [2:0] funct3;
 wire [6:0] opcode;
 wire funct7;
 wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write;
-wire [1:0] mem_to_reg; // 修正位寬
+wire [1:0] mem_to_reg; 
 wire [1:0] alu_op;
 wire [1:0] write_data_sel;
 wire [1:0] pc_sel;
+
+wire [31:0] shifted_imm;
 
 // Assign instruction fields
 assign opcode = instruction[6:0];
 assign funct3 = instruction[14:12];
 assign funct7 = instruction[30];
 
+assign write_data_sel = (mem_to_reg == 2'b01) ? 2'b01: 2'b00; // ALU result or memory data
 // Program Counter
 PC m_PC(
     .clk(clk),
@@ -60,7 +63,7 @@ Control m_Control(
     .BrEq(branch_eq),
     .BrLT(branch_lt),
     .memRead(mem_read),
-    .memtoReg(mem_to_reg), // 修正位寬
+    .memtoReg(mem_to_reg), 
     .ALUOp(alu_op),
     .memWrite(mem_write),
     .ALUSrc(alu_src),
@@ -103,13 +106,13 @@ ImmGen m_ImmGen(
 // Shift Left 1
 ShiftLeftOne m_ShiftLeftOne(
     .i(imm_gen_out),
-    .o(pc_branch)
+    .o(shifted_imm)
 );
 
 // Branch Target Adder
 Adder m_Adder_2(
     .a(pc_current),
-    .b(pc_branch),
+    .b(shifted_imm),
     .sum(pc_branch)
 );
 
@@ -118,7 +121,7 @@ Mux3to1 #(.size(32)) m_Mux_PC(
     .sel(pc_sel),
     .s0(pc_plus4),
     .s1(pc_branch),
-    .s2(32'b0), // 預留其他選項
+    .s2(32'b0), 
     .out(pc_next)
 );
 
@@ -144,7 +147,7 @@ ALU m_ALU(
     .A(reg_read_data1),
     .B(alu_src_b),
     .ALUOut(alu_result),
-    .zero(branch_eq) // 修正 branch_eq 的生成邏輯
+    .zero(branch_eq)
 );
 
 // Data Memory
@@ -163,7 +166,7 @@ Mux3to1 #(.size(32)) m_Mux_WriteData(
     .sel(write_data_sel),
     .s0(alu_result),
     .s1(mem_read_data),
-    .s2(32'b0), // 預留其他選項
+    .s2(32'b0), 
     .out(write_data)
 );
 
