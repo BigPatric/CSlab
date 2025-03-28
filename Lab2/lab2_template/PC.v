@@ -7,6 +7,13 @@ module PC (
 
     // TODO: implement your program counter here
 
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            pc_o <= 0; // Reset the program counter to 0
+        end else begin
+            pc_o <= pc_i; // Update the program counter with the input value
+        end
+    end
 endmodule
 
 

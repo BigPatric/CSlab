@@ -4,6 +4,8 @@ module ImmGen (
     output reg signed [31:0] imm
 );
     // ImmGen generate imm value base opcode
-
+    always @(*)begin
+        imm <= $signed(inst);
+    end
 endmodule
 

@@ -8,8 +8,40 @@ module ALUCtrl (
     // TODO: implement your ALU control here
     // For testbench verifying, Do not modify input and output pin
     // Hint: using ALUOp, funct7, funct3 to select exact operation
+    always @(*)begin
+        case(ALUOp)
+           2'b00: ALUCtl = 4'b0010; // ADD
+           2'b01:
+                case(funct3)
+                    3'b000: ALUCtl = 4'b0110; //SUB
+                    3'b100: ALUCtl = 4'b0111; //SLT
+                    3'b110: ALUCtl = 4'b1001; //SLTU
+                    default: ALUCtl = 4'bxxxx; // Default case
+                endcase
+            2'b10:
+                case({funct7, funct3})
+                    4'b0000: ALUCtl = 4'b0010; // ADD
+                    4'b1000: ALUCtl = 4'b0110; // SUB
+                    4'b0111: ALUCtl = 4'b0000; // AND
+                    4'b0110: ALUCtl = 4'b0001; // OR
+                    4'b0010: ALUCtl = 4'b0111; // SLT
+                    4'b0011: ALUCtl = 4'b1001; // SLTU
+                    default: ALUCtl = 4'bxxxx; // Default case
+                endcase
+            2'b11:
+                case(funct3)
+                    3'b000: ALUCtl = 4'b0010; // ADDI
+                    3'b111: ALUCtl = 4'b0000; // ANDI
+                    3'b110: ALUCtl = 4'b0001; // ORI
+                    3'b100: ALUCtl = 4'b0100; // XORI
+                    3'b010: ALUCtl = 4'b0111; // SLTI
+                    3'b011: ALUCtl = 4'b1001; // SLTIU
+                    default: ALUCtl = 4'bxxxx; // Default case
+                endcase
+            default: ALUCtl = 4'bxxxx; // Default case
+        endcase
 
-
+    end
 
 endmodule
 

@@ -4,7 +4,9 @@ module ShiftLeftOne (
 );
 
     // TODO: implement your shift left 1 here
-
+    always @(*) begin
+        o <= i <<< 1;
+    end
 
 endmodule
 

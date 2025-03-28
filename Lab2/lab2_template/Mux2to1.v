@@ -9,5 +9,8 @@ module Mux2to1 #(
 );
     // TODO: implement your 2to1 multiplexer here
 
+    always @(*)begin
+        out <= (sel == 1'b0) ? s0 : s1;
+    end
 endmodule
 
