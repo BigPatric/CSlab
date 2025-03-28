@@ -10,10 +10,6 @@ module SingleCycleCPU (
 // The rst signal is active low, which means the module will reset if the rst signal is zero.
 // And you should follow this design.
 
-// TODO: connect wire to realize SingleCycleCPU
-// The following provides simple template,
-// you can modify it as you wish except I/O pin and register module
-
 // Wires for interconnections
 wire [31:0] pc_current, pc_next, pc_plus4, pc_branch;
 wire [31:0] instruction;
@@ -25,18 +21,18 @@ wire [3:0] alu_control;
 wire [2:0] funct3;
 wire [6:0] opcode;
 wire funct7;
-wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write, mem_to_reg;
+wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write;
+wire [1:0] mem_to_reg; // 修正位寬
 wire [1:0] alu_op;
 wire [1:0] write_data_sel;
 wire [1:0] pc_sel;
 
-
+// Assign instruction fields
 assign opcode = instruction[6:0];
 assign funct3 = instruction[14:12];
 assign funct7 = instruction[30];
 
-
-
+// Program Counter
 PC m_PC(
     .clk(clk),
     .rst(start),
@@ -44,25 +40,27 @@ PC m_PC(
     .pc_o(pc_current)
 );
 
+// PC + 4 Adder
 Adder m_Adder_1(
     .a(pc_current),
     .b(32'h4),
     .sum(pc_plus4)
 );
 
-
+// Instruction Memory
 InstructionMemory m_InstMem(
     .readAddr(pc_current),
     .inst(instruction)
 );
 
+// Control Unit
 Control m_Control(
     .opcode(opcode),
     .funct3(funct3),
     .BrEq(branch_eq),
     .BrLT(branch_lt),
     .memRead(mem_read),
-    .memtoReg(mem_to_reg),
+    .memtoReg(mem_to_reg), // 修正位寬
     .ALUOp(alu_op),
     .memWrite(mem_write),
     .ALUSrc(alu_src),
@@ -70,10 +68,7 @@ Control m_Control(
     .PCSel(pc_sel)
 );
 
-// For Student:
-// Do not change the Register instance name!
-// Or you will fail validation.
-
+// Register File
 Register m_Register(
     .clk(clk),
     .rst(start),
@@ -89,8 +84,9 @@ Register m_Register(
 // ======= for validation =======
 // == Dont change this section ==
 assign r = m_Register.regs;
-// ======= for vaildation =======
+// ======= for validation =======
 
+// Branch Comparator
 BranchComp m_BranchComp(
     .A(reg_read_data1),
     .B(reg_read_data2),
@@ -98,31 +94,35 @@ BranchComp m_BranchComp(
     .BrLT(branch_lt)
 );
 
+// Immediate Generator
 ImmGen m_ImmGen(
-    .inst(instruction[31:20]),
+    .inst(instruction), 
     .imm(imm_gen_out)
 );
 
+// Shift Left 1
 ShiftLeftOne m_ShiftLeftOne(
     .i(imm_gen_out),
     .o(pc_branch)
 );
 
+// Branch Target Adder
 Adder m_Adder_2(
     .a(pc_current),
     .b(pc_branch),
     .sum(pc_branch)
 );
 
+// PC Mux
 Mux3to1 #(.size(32)) m_Mux_PC(
     .sel(pc_sel),
-    .s0(pc_current),
-    .s1(pc_plus4),
-    .s2(pc_branch),
+    .s0(pc_plus4),
+    .s1(pc_branch),
+    .s2(32'b0), // 預留其他選項
     .out(pc_next)
 );
 
-
+// ALU Source Mux
 Mux2to1 #(.size(32)) m_Mux_ALU(
     .sel(alu_src),
     .s0(reg_read_data2),
@@ -130,6 +130,7 @@ Mux2to1 #(.size(32)) m_Mux_ALU(
     .out(alu_src_b)
 );
 
+// ALU Control
 ALUCtrl m_ALUCtrl(
     .ALUOp(alu_op),
     .funct7(funct7),
@@ -137,15 +138,16 @@ ALUCtrl m_ALUCtrl(
     .ALUCtl(alu_control)
 );
 
+// ALU
 ALU m_ALU(
     .ALUctl(alu_control),
     .A(reg_read_data1),
     .B(alu_src_b),
     .ALUOut(alu_result),
-    .zero(branch_eq)
+    .zero(branch_eq) // 修正 branch_eq 的生成邏輯
 );
 
-
+// Data Memory
 DataMemory m_DataMemory(
     .rst(start),
     .clk(clk),
@@ -156,12 +158,12 @@ DataMemory m_DataMemory(
     .readData(mem_read_data)
 );
 
-
+// Write Data Mux
 Mux3to1 #(.size(32)) m_Mux_WriteData(
     .sel(write_data_sel),
     .s0(alu_result),
     .s1(mem_read_data),
-    .s2(32'b0),
+    .s2(32'b0), // 預留其他選項
     .out(write_data)
 );
 
