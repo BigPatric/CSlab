@@ -18,7 +18,6 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     CData/*0:0*/ SingleCycleCPU__DOT__mem_read;
     CData/*3:0*/ SingleCycleCPU__DOT__alu_control;
     CData/*0:0*/ SingleCycleCPU__DOT__branch_eq;
-    CData/*1:0*/ SingleCycleCPU__DOT__write_data_sel;
     CData/*4:0*/ SingleCycleCPU__DOT____Vcellinp__m_Register__writeReg;
     CData/*7:0*/ __VdfgTmp_hebd05efc__0;
     CData/*7:0*/ __VdfgTmp_hebd63ba7__0;
@@ -43,7 +42,8 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     SData/*9:0*/ SingleCycleCPU__DOT__m_Control__DOT__ctrl;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_current;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_next;
-    IData/*31:0*/ SingleCycleCPU__DOT__pc_branch;
+    IData/*31:0*/ SingleCycleCPU__DOT__instruction;
+    IData/*31:0*/ SingleCycleCPU__DOT__imm_gen_out;
     IData/*31:0*/ SingleCycleCPU__DOT__reg_read_data1;
     IData/*31:0*/ SingleCycleCPU__DOT__reg_read_data2;
     IData/*31:0*/ SingleCycleCPU__DOT__alu_result;
@@ -52,7 +52,6 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     IData/*31:0*/ SingleCycleCPU__DOT__alu_src_b;
     IData/*31:0*/ __VdfgTmp_hc3307145__0;
     IData/*23:0*/ __VdfgTmp_hca52c8c2__0;
-    IData/*31:0*/ __Vtrigrprev__TOP__SingleCycleCPU__DOT__pc_branch;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __Vtrigrprev__TOP__SingleCycleCPU__DOT__alu_result;
     IData/*31:0*/ __VactIterCount;
@@ -61,9 +60,9 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VlUnpacked<IData/*31:0*/, 32> SingleCycleCPU__DOT__m_Register__DOT__regs;
     VlUnpacked<CData/*7:0*/, 128> SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory;
     VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
-    VlTriggerVec<3> __VstlTriggered;
-    VlTriggerVec<6> __VactTriggered;
-    VlTriggerVec<6> __VnbaTriggered;
+    VlTriggerVec<2> __VstlTriggered;
+    VlTriggerVec<5> __VactTriggered;
+    VlTriggerVec<5> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     VSingleCycleCPU__Syms* const vlSymsp;

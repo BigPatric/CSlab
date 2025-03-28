@@ -19,16 +19,11 @@ VL_ATTR_COLD void VSingleCycleCPU___024root___eval_triggers__stl(VSingleCycleCPU
     vlSelf->__VstlTriggered.at(0U) = (0U == vlSelf->__VstlIterCount);
     vlSelf->__VstlTriggered.at(1U) = ((IData)(vlSelf->SingleCycleCPU__DOT__branch_eq) 
                                       != (IData)(vlSelf->__Vtrigrprev__TOP__SingleCycleCPU__DOT__branch_eq));
-    vlSelf->__VstlTriggered.at(2U) = (vlSelf->SingleCycleCPU__DOT__pc_branch 
-                                      != vlSelf->__Vtrigrprev__TOP__SingleCycleCPU__DOT__pc_branch);
     vlSelf->__Vtrigrprev__TOP__SingleCycleCPU__DOT__branch_eq 
         = vlSelf->SingleCycleCPU__DOT__branch_eq;
-    vlSelf->__Vtrigrprev__TOP__SingleCycleCPU__DOT__pc_branch 
-        = vlSelf->SingleCycleCPU__DOT__pc_branch;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VstlDidInit))))) {
         vlSelf->__VstlDidInit = 1U;
         vlSelf->__VstlTriggered.at(1U) = 1U;
-        vlSelf->__VstlTriggered.at(2U) = 1U;
     }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
