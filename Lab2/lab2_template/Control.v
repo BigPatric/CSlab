@@ -13,7 +13,7 @@ module Control (
 
     // TODO: implement your Control here
     // Hint: follow the Architecture (figure in spec) to set output signal
-    reg [8:0] ctrl;
+    reg [7:0] ctrl;
     assign { memRead, memtoReg, ALUOp, memWrite, ALUSrc, regWrite} = ctrl;
     assign PCSel = (opcode == 7'b1100011) ? 2'b10 : (BrEq || BrLT) ? 2'b01 : 2'b00;
     // if BrEq or BrLT is 1, set PCSel to 2'b01

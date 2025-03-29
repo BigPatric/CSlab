@@ -59,7 +59,7 @@ InstructionMemory m_InstMem(
 Control m_Control(
     .opcode(opcode),
     .funct3(funct3),
-    .BrEq(branch_eq || jump ),
+    .BrEq(branch_eq),
     .BrLT(branch_lt),
     .memRead(mem_read),
     .memtoReg(mem_to_reg), 

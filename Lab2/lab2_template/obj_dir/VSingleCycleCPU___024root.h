@@ -17,9 +17,12 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VL_IN8(start,0,0);
     CData/*0:0*/ SingleCycleCPU__DOT__mem_read;
     CData/*3:0*/ SingleCycleCPU__DOT__alu_control;
+    CData/*6:0*/ SingleCycleCPU__DOT__opcode;
     CData/*0:0*/ SingleCycleCPU__DOT__branch_eq;
+    CData/*0:0*/ SingleCycleCPU__DOT__branch_lt;
+    CData/*1:0*/ SingleCycleCPU__DOT__pc_sel;
     CData/*4:0*/ SingleCycleCPU__DOT____Vcellinp__m_Register__writeReg;
-    CData/*7:0*/ __VdfgTmp_hebd05efc__0;
+    CData/*7:0*/ SingleCycleCPU__DOT__m_Control__DOT__ctrl;
     CData/*7:0*/ __VdfgTmp_hebd63ba7__0;
     CData/*7:0*/ __VdfgTmp_hb17e49cd__0;
     CData/*6:0*/ __Vdlyvdim0__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v0;
@@ -32,14 +35,11 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     CData/*6:0*/ __Vdlyvdim0__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v3;
     CData/*7:0*/ __Vdlyvval__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v3;
     CData/*0:0*/ __Vdlyvset__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v4;
-    CData/*0:0*/ __Vtrigrprev__TOP__SingleCycleCPU__DOT__branch_eq;
-    CData/*0:0*/ __VstlDidInit;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __Vtrigrprev__TOP__start;
     CData/*0:0*/ __Vtrigrprev__TOP__SingleCycleCPU__DOT__mem_read;
     CData/*0:0*/ __VactDidInit;
     CData/*0:0*/ __VactContinue;
-    SData/*9:0*/ SingleCycleCPU__DOT__m_Control__DOT__ctrl;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_current;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_next;
     IData/*31:0*/ SingleCycleCPU__DOT__instruction;
@@ -59,10 +59,10 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VlUnpacked<CData/*7:0*/, 128> SingleCycleCPU__DOT__m_InstMem__DOT__insts;
     VlUnpacked<IData/*31:0*/, 32> SingleCycleCPU__DOT__m_Register__DOT__regs;
     VlUnpacked<CData/*7:0*/, 128> SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory;
-    VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
-    VlTriggerVec<2> __VstlTriggered;
-    VlTriggerVec<5> __VactTriggered;
-    VlTriggerVec<5> __VnbaTriggered;
+    VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
+    VlTriggerVec<1> __VstlTriggered;
+    VlTriggerVec<4> __VactTriggered;
+    VlTriggerVec<4> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     VSingleCycleCPU__Syms* const vlSymsp;
