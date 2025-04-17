@@ -10,7 +10,8 @@ module PC (
     always @(posedge clk , negedge rst) begin
         if (~rst) begin
             pc_o <= 0; // Reset the program counter to 0
-        end else begin
+        end 
+        else begin
             pc_o <= pc_i; // Update the program counter with the input value
         end
     end

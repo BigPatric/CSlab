@@ -18,7 +18,7 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     CData/*0:0*/ SingleCycleCPU__DOT__mem_read;
     CData/*3:0*/ SingleCycleCPU__DOT__alu_control;
     CData/*2:0*/ SingleCycleCPU__DOT__funct3;
-    CData/*4:0*/ SingleCycleCPU__DOT____Vcellinp__m_Register__writeReg;
+    CData/*4:0*/ SingleCycleCPU__DOT__writeReg;
     CData/*7:0*/ __VdfgTmp_hebd05efc__0;
     CData/*7:0*/ __VdfgTmp_hb17e49cd__0;
     CData/*6:0*/ __Vdlyvdim0__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v0;
@@ -40,8 +40,8 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     SData/*15:0*/ __VdfgTmp_h67a17cee__0;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_current;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_next;
-    IData/*31:0*/ SingleCycleCPU__DOT__instruction;
-    IData/*31:0*/ SingleCycleCPU__DOT__imm_gen_out;
+    IData/*31:0*/ SingleCycleCPU__DOT__instruct;
+    IData/*31:0*/ SingleCycleCPU__DOT__imm;
     IData/*31:0*/ SingleCycleCPU__DOT__reg_read_data1;
     IData/*31:0*/ SingleCycleCPU__DOT__reg_read_data2;
     IData/*31:0*/ SingleCycleCPU__DOT__alu_result;

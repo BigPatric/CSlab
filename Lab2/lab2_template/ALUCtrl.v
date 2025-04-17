@@ -10,7 +10,7 @@ module ALUCtrl (
     // Hint: using ALUOp, funct7, funct3 to select exact operation
     always @(*)begin
         case(ALUOp)
-           2'b00: ALUCtl = 4'b0010; // ADD
+           2'b00: ALUCtl = 4'b0000; 
            2'b01:
                 case(funct3)
                     3'b000: ALUCtl = 4'b0000; 
@@ -19,7 +19,7 @@ module ALUCtrl (
                     3'b100: ALUCtl = 4'b0110;
                     3'b110: ALUCtl = 4'b0011;
                     3'b111: ALUCtl = 4'b0010; 
-                    default: ALUCtl = 4'bxxxx; 
+                    default: ALUCtl = 4'b0000; 
                 endcase
             2'b10:
                 case({funct7, funct3})
