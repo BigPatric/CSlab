@@ -12,8 +12,9 @@ module SingleCycleCPU (
 
 // Wires for interconnections
 wire [31:0] pc_current, pc_next, pc_plus4, pc_branch;
+
 wire [31:0] instruction;
-wire [31:0] imm_gen_out;
+wire [31:0] imm;
 wire [31:0] reg_read_data1, reg_read_data2;
 wire [31:0] alu_result, mem_read_data, write_data;
 wire [31:0] alu_src_b;
@@ -24,7 +25,6 @@ wire funct7;
 wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write, jump;
 wire [1:0] mem_to_reg; 
 wire [1:0] alu_op;
-wire [1:0] write_data_sel;
 wire [1:0] pc_sel;
 
 wire [31:0] shifted_imm;
@@ -33,7 +33,6 @@ wire [31:0] shifted_imm;
 assign opcode = instruction[6:0];
 assign funct3 = instruction[14:12];
 assign funct7 = instruction[30];
-assign write_data_sel = (mem_to_reg == 2'b01) ? 2'b01: 2'b00; // ALU result or memory data
 // Program Counter
 PC m_PC(
     .clk(clk),
@@ -69,15 +68,18 @@ Control m_Control(
     .regWrite(reg_write),
     .PCSel(pc_sel)
 );
-
+wire readReg1,readReg2,writeReg;
+assign readReg1 = instruction[19:15];
+assign readReg2 = instruction[24:20];
+assign writeReg = instruction[11:7];
 // Register File
 Register m_Register(
     .clk(clk),
     .rst(start),
     .regWrite(reg_write),
-    .readReg1(instruction[19:15]),
-    .readReg2(instruction[24:20]),
-    .writeReg(instruction[11:7]),
+    .readReg1(readReg1),
+    .readReg2(readReg2),
+    .writeReg(writeReg),
     .writeData(write_data),
     .readData1(reg_read_data1),
     .readData2(reg_read_data2)
@@ -99,12 +101,12 @@ BranchComp m_BranchComp(
 // Immediate Generator
 ImmGen m_ImmGen(
     .inst(instruction), 
-    .imm(imm_gen_out)
+    .imm(imm)
 );
 
 // Shift Left 1
 ShiftLeftOne m_ShiftLeftOne(
-    .i(imm_gen_out),
+    .i(imm),
     .o(shifted_imm)
 );
 
@@ -128,7 +130,7 @@ Mux3to1 #(.size(32)) m_Mux_PC(
 Mux2to1 #(.size(32)) m_Mux_ALU(
     .sel(alu_src),
     .s0(reg_read_data2),
-    .s1(imm_gen_out),
+    .s1(imm),
     .out(alu_src_b)
 );
 
@@ -162,10 +164,10 @@ DataMemory m_DataMemory(
 
 // Write Data Mux
 Mux3to1 #(.size(32)) m_Mux_WriteData(
-    .sel(write_data_sel),
+    .sel(mem_to_reg),
     .s0(alu_result),
     .s1(mem_read_data),
-    .s2(32'b0), 
+    .s2(pc_plus4), 
     .out(write_data)
 );
 

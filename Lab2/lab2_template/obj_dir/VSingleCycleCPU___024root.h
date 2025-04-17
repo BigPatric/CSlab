@@ -17,11 +17,9 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VL_IN8(start,0,0);
     CData/*0:0*/ SingleCycleCPU__DOT__mem_read;
     CData/*3:0*/ SingleCycleCPU__DOT__alu_control;
-    CData/*1:0*/ SingleCycleCPU__DOT__pc_sel;
+    CData/*2:0*/ SingleCycleCPU__DOT__funct3;
     CData/*4:0*/ SingleCycleCPU__DOT____Vcellinp__m_Register__writeReg;
-    CData/*7:0*/ SingleCycleCPU__DOT__m_Control__DOT__ctrl;
     CData/*7:0*/ __VdfgTmp_hebd05efc__0;
-    CData/*7:0*/ __VdfgTmp_hebd63ba7__0;
     CData/*7:0*/ __VdfgTmp_hb17e49cd__0;
     CData/*6:0*/ __Vdlyvdim0__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v0;
     CData/*7:0*/ __Vdlyvval__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v0;
@@ -38,6 +36,8 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     CData/*0:0*/ __Vtrigrprev__TOP__SingleCycleCPU__DOT__mem_read;
     CData/*0:0*/ __VactDidInit;
     CData/*0:0*/ __VactContinue;
+    SData/*9:0*/ SingleCycleCPU__DOT__m_Control__DOT__crtl;
+    SData/*15:0*/ __VdfgTmp_h67a17cee__0;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_current;
     IData/*31:0*/ SingleCycleCPU__DOT__pc_next;
     IData/*31:0*/ SingleCycleCPU__DOT__instruction;
@@ -59,8 +59,8 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VlUnpacked<CData/*7:0*/, 128> SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory;
     VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
-    VlTriggerVec<4> __VactTriggered;
-    VlTriggerVec<4> __VnbaTriggered;
+    VlTriggerVec<3> __VactTriggered;
+    VlTriggerVec<3> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     VSingleCycleCPU__Syms* const vlSymsp;

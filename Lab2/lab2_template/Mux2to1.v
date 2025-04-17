@@ -8,10 +8,6 @@ module Mux2to1 #(
     output signed [size-1:0] out
 );
     // TODO: implement your 2to1 multiplexer here
-    reg [size-1:0] o;
-    assign out = o;
-    always @(*)begin
-        o = (sel == 1'b0) ? s0 : s1;
-    end
+    assign out = (sel == 0)?s0:s1;
 endmodule
 

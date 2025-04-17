@@ -6,8 +6,7 @@ module ImmGen (
     // ImmGen generate imm value base opcode
     always @(*)begin
         case (inst[6:0]) // opcode
-            7'b0010011, // I-type
-            7'b0000011: // I-type
+            7'b0010011, 7'b0000011, 7'b1100111: // I-type
                 imm = $signed({{20{inst[31]}},inst[31:20]});
             7'b0100011: // S-type
                 imm = $signed({{20{inst[31]}},inst[31:25], inst[11:7]});

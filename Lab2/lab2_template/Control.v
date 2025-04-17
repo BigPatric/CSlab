@@ -15,7 +15,6 @@ module Control (
     // Hint: follow the Architecture (figure in spec) to set output signal
     reg [7:0] ctrl;
     assign { memRead, memtoReg, ALUOp, memWrite, ALUSrc, regWrite} = ctrl;
-    // assign PCSel = (opcode == 7'b1100011) ? 2'b10 : (BrEq || BrLT) ? 2'b01 : 2'b00;
     always @(*)begin
         case(opcode)
             7'b0110011: ctrl = 8'b0_00_10_0_0_1; // R-type
