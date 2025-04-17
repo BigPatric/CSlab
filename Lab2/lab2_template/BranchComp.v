@@ -7,8 +7,8 @@ module BranchComp (
 // Hint: you can use operator to implement
 
     always @(*) begin
-        BrEq = (A == B) ? 1 : 0; // Check if A is equal to B
-        BrLT = (A < B) ? 1 : 0; // Check if A is less than B
+        BrEq = (A == B); // Check if A is equal to B
+        BrLT = (A < B); // Check if A is less than B
     end
     
 endmodule

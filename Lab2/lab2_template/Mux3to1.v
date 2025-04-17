@@ -14,7 +14,7 @@ module Mux3to1 #(
             2'b00: out = s0;
             2'b01: out = s1;
             2'b10: out = s2;
-            default: out = s0; // Default case to avoid latches
+            default: out = 0; // Default case to avoid latches
         endcase
     end
 endmodule
