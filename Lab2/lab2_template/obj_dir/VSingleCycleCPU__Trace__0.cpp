@@ -103,9 +103,8 @@ void VSingleCycleCPU___024root__trace_chg_sub_0(VSingleCycleCPU___024root* vlSel
                                        >> 5U))),2);
         bufp->chgCData(oldp+57,((3U & ((IData)(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl) 
                                        >> 3U))),2);
-        bufp->chgCData(oldp+58,((3U & ((IData)(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl) 
-                                       >> 8U))),2);
-        bufp->chgSData(oldp+59,(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl),10);
+        bufp->chgCData(oldp+58,(vlSelf->SingleCycleCPU__DOT__pc_sel),2);
+        bufp->chgCData(oldp+59,(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl),8);
     }
     bufp->chgBit(oldp+60,(vlSelf->clk));
     bufp->chgBit(oldp+61,(vlSelf->start));

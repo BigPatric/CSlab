@@ -93,7 +93,9 @@ VL_ATTR_COLD void VSingleCycleCPU___024root__trace_init_sub__TOP__0(VSingleCycle
     tracep->declBit(c+54,"ALUSrc", false,-1);
     tracep->declBit(c+55,"regWrite", false,-1);
     tracep->declBus(c+59,"PCSel", false,-1, 1,0);
-    tracep->declBus(c+60,"crtl", false,-1, 9,0);
+    tracep->declBus(c+60,"crtl", false,-1, 7,0);
+    tracep->declBus(c+99,"b1", false,-1, 9,0);
+    tracep->declBus(c+100,"b2", false,-1, 9,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("m_DataMemory ");
     tracep->declBit(c+62,"rst", false,-1);
@@ -113,14 +115,14 @@ VL_ATTR_COLD void VSingleCycleCPU___024root__trace_init_sub__TOP__0(VSingleCycle
     tracep->declBus(c+4,"inst", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("m_Mux_ALU ");
-    tracep->declBus(c+99,"size", false,-1, 31,0);
+    tracep->declBus(c+101,"size", false,-1, 31,0);
     tracep->declBit(c+54,"sel", false,-1);
     tracep->declBus(c+46,"s0", false,-1, 31,0);
     tracep->declBus(c+5,"s1", false,-1, 31,0);
     tracep->declBus(c+48,"out", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("m_Mux_PC ");
-    tracep->declBus(c+99,"size", false,-1, 31,0);
+    tracep->declBus(c+101,"size", false,-1, 31,0);
     tracep->declBus(c+59,"sel", false,-1, 1,0);
     tracep->declBus(c+2,"s0", false,-1, 31,0);
     tracep->declBus(c+3,"s1", false,-1, 31,0);
@@ -128,7 +130,7 @@ VL_ATTR_COLD void VSingleCycleCPU___024root__trace_init_sub__TOP__0(VSingleCycle
     tracep->declBus(c+44,"out", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("m_Mux_WriteData ");
-    tracep->declBus(c+99,"size", false,-1, 31,0);
+    tracep->declBus(c+101,"size", false,-1, 31,0);
     tracep->declBus(c+57,"sel", false,-1, 1,0);
     tracep->declBus(c+47,"s0", false,-1, 31,0);
     tracep->declBus(c+95,"s1", false,-1, 31,0);
@@ -276,9 +278,8 @@ VL_ATTR_COLD void VSingleCycleCPU___024root__trace_full_sub_0(VSingleCycleCPU___
                                     >> 5U))),2);
     bufp->fullCData(oldp+58,((3U & ((IData)(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl) 
                                     >> 3U))),2);
-    bufp->fullCData(oldp+59,((3U & ((IData)(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl) 
-                                    >> 8U))),2);
-    bufp->fullSData(oldp+60,(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl),10);
+    bufp->fullCData(oldp+59,(vlSelf->SingleCycleCPU__DOT__pc_sel),2);
+    bufp->fullCData(oldp+60,(vlSelf->SingleCycleCPU__DOT__m_Control__DOT__crtl),8);
     bufp->fullBit(oldp+61,(vlSelf->clk));
     bufp->fullBit(oldp+62,(vlSelf->start));
     bufp->fullIData(oldp+63,(vlSelf->r[0]),32);
@@ -317,5 +318,7 @@ VL_ATTR_COLD void VSingleCycleCPU___024root__trace_full_sub_0(VSingleCycleCPU___
     bufp->fullIData(oldp+96,(vlSelf->SingleCycleCPU__DOT__write_data),32);
     bufp->fullCData(oldp+97,(vlSelf->SingleCycleCPU__DOT__writeReg),5);
     bufp->fullIData(oldp+98,(4U),32);
-    bufp->fullIData(oldp+99,(0x20U),32);
+    bufp->fullSData(oldp+99,(0x100U),10);
+    bufp->fullSData(oldp+100,(0U),10);
+    bufp->fullIData(oldp+101,(0x20U),32);
 }
