@@ -13,31 +13,52 @@ module Control (
 
     // TODO: implement your Control here
     // Hint: follow the Architecture (figure in spec) to set output signal
-    reg [7:0] ctrl;
-    assign { memRead, memtoReg, ALUOp, memWrite, ALUSrc, regWrite} = ctrl;
-    assign PCSel = (opcode == 7'b1100011) ? 2'b10 : (BrEq || BrLT) ? 2'b01 : 2'b00;
-    // if BrEq or BrLT is 1, set PCSel to 2'b01
-    // if opcode is 7'b1100011, set PCSel to 2'b10
+    //use op-code to determin the control signal
+    // what to put in ALUOp I type add 00 sub 01 R 10
 
-    always @(*)begin
+    reg [9:0] crtl;
+    assign {PCSel,memRead,memtoReg,ALUOp,memWrite,ALUSrc,regWrite} = crtl;
+
+    always@(*) begin
         case(opcode)
-            7'b0110011: ctrl = 8'b0_00_10_0_0_1; // R-type
-            7'b0000011: ctrl = 8'b1_01_00_0_1_1; // Load (I-type)
-            7'b0100011: ctrl = 8'b0_00_00_1_1_0; // Store (S-type)
-            7'b1100011: begin // Branch (B-type)
-                if (BrEq || BrLT)
-                    ctrl = 8'b0_00_01_0_0_0; // Branch if equal / less than
-                else
-                    ctrl = 8'b0_00_00_0_0_0; // Default
-            end
-            7'b0010011: ctrl = 8'b0_00_11_0_1_1; // Immediate (I-type)
-            7'b1101111: ctrl = 8'b0_10_00_0_0_1; // JAL (J-type)
-            7'b1100111: ctrl = 8'b0_10_00_0_1_1; // JALR (I-type)
-            default:    ctrl = 8'b0_00_00_0_0_0; // Default case
+            7'b0000011: crtl = 10'b00_1_01_00_0_1_1;  //load (3)
+            7'b0010011: crtl = 10'b00_0_00_01_0_1_1;  // immediate add sub ..(19)
+            7'b0100011: crtl = 10'b00_0_xx_00_1_1_0; // store (35)
+            7'b0110011: crtl = 10'b00_0_00_10_0_0_1; //R type (51)
+            7'b1100011: // conditional branch (99)
+                case(funct3)
+                    3'b000:
+                        if(BrEq) 
+                            crtl = 10'b01_0_xx_xx_0_0_0;
+                        else 
+                            crtl = 10'b00_0_xx_xx_0_0_0;
+                    3'b001:
+                        if(~BrEq)
+                            crtl = 10'b01_0_xx_xx_0_0_0;
+                        else 
+                            crtl = 10'b00_0_xx_xx_0_0_0;
+                    3'b100:
+                        if(BrLT)
+                            crtl = 10'b01_0_xx_xx_0_0_0;
+                        else 
+                            crtl = 10'b00_0_xx_xx_0_0_0;
+                    3'b101:
+                        if(~BrLT)
+                            crtl = 10'b01_0_xx_xx_0_0_0;
+                        else 
+                            crtl = 10'b00_0_xx_xx_0_0_0;
+                    default:
+                        crtl = 10'b00_0_00_00_0_0_0; // no unsign branch
+                endcase 
+            7'b1100111:
+                crtl = 10'b10_0_10_00_0_1_1; //jalr (103)
+            7'b1101111:
+                crtl = 10'b01_0_10_00_0_1_1; //jal (111)
+            default:
+                crtl = 10'bxxxxxxxxxx;
         endcase
-        if(opcode == 7'b1101111 || opcode == 7'b1100111)PCSel = 2'b10;
-        else if(opcode == 7'b1100011 && (BrEq || BrLT))PCSel = 2'b01;
-        else PCSel = 2'b00;
     end
+
+
 endmodule
 
