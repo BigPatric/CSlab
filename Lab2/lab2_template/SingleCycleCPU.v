@@ -45,7 +45,7 @@ PC m_PC(
 // PC + 4 Adder
 Adder m_Adder_1(
     .a(pc_current),
-    .b(32'h4),
+    .b(4),
     .sum(pc_plus4)
 );
 
@@ -120,7 +120,7 @@ Mux3to1 #(.size(32)) m_Mux_PC(
     .sel(pc_sel),
     .s0(pc_plus4),
     .s1(pc_branch),
-    .s2(32'b0), 
+    .s2(alu_result), 
     .out(pc_next)
 );
 

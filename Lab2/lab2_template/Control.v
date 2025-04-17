@@ -15,10 +15,7 @@ module Control (
     // Hint: follow the Architecture (figure in spec) to set output signal
     reg [7:0] ctrl;
     assign { memRead, memtoReg, ALUOp, memWrite, ALUSrc, regWrite} = ctrl;
-    assign PCSel = (opcode == 7'b1100011) ? 2'b10 : (BrEq || BrLT) ? 2'b01 : 2'b00;
-    // if BrEq or BrLT is 1, set PCSel to 2'b01
-    // if opcode is 7'b1100011, set PCSel to 2'b10
-
+    // assign PCSel = (opcode == 7'b1100011) ? 2'b10 : (BrEq || BrLT) ? 2'b01 : 2'b00;
     always @(*)begin
         case(opcode)
             7'b0110011: ctrl = 8'b0_00_10_0_0_1; // R-type
@@ -35,6 +32,9 @@ module Control (
             7'b1100111: ctrl = 8'b0_10_00_0_1_1; // JALR (I-type)
             default:    ctrl = 8'b0_00_00_0_0_0; // Default case
         endcase
+        if(opcode == 7'b1101111 || opcode == 7'b1100111)PCSel = 2'b10;
+        else if(opcode == 7'b1100011 && (BrEq || BrLT))PCSel = 2'b01;
+        else PCSel = 2'b00;
     end
 endmodule
 

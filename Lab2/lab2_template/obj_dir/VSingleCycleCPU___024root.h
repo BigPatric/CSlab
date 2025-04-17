@@ -17,12 +17,10 @@ class VSingleCycleCPU___024root final : public VerilatedModule {
     VL_IN8(start,0,0);
     CData/*0:0*/ SingleCycleCPU__DOT__mem_read;
     CData/*3:0*/ SingleCycleCPU__DOT__alu_control;
-    CData/*6:0*/ SingleCycleCPU__DOT__opcode;
-    CData/*0:0*/ SingleCycleCPU__DOT__branch_eq;
-    CData/*0:0*/ SingleCycleCPU__DOT__branch_lt;
     CData/*1:0*/ SingleCycleCPU__DOT__pc_sel;
     CData/*4:0*/ SingleCycleCPU__DOT____Vcellinp__m_Register__writeReg;
     CData/*7:0*/ SingleCycleCPU__DOT__m_Control__DOT__ctrl;
+    CData/*7:0*/ __VdfgTmp_hebd05efc__0;
     CData/*7:0*/ __VdfgTmp_hebd63ba7__0;
     CData/*7:0*/ __VdfgTmp_hb17e49cd__0;
     CData/*6:0*/ __Vdlyvdim0__SingleCycleCPU__DOT__m_DataMemory__DOT__data_memory__v0;
