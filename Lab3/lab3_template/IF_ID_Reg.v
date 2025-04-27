@@ -33,12 +33,12 @@ module IF_ID_Reg (
             inst_reg <= 32'b0;
         end 
         else begin
-            pc_o = pc_reg;
-            pc_4_o = pc_4_reg;
-            inst_o = inst_reg;
-            pc_reg = pc_i;
-            pc_4_reg = pc_4_i;
-            inst_reg = inst_i;
+            pc_o <= pc_reg;
+            pc_4_o <= pc_4_reg;
+            inst_o <= inst_reg;
+            pc_reg <= pc_i;
+            pc_4_reg <= pc_4_i;
+            inst_reg <= inst_i;
         end
     end
 
