@@ -12,7 +12,6 @@ module MEM_WB_Reg (
     output reg [1:0] mem_to_reg_o
 
 );
-    
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
             alu_result_o <= 32'b0;

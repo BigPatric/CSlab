@@ -17,7 +17,6 @@ module EX_MEM_Reg (
     output reg mem_write_o,
     output reg reg_write_o
 );
-
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
             alu_result_o <= 32'b0;
@@ -38,4 +37,5 @@ module EX_MEM_Reg (
             reg_write_o <= reg_write_i;
         end
     end
+
 endmodule
