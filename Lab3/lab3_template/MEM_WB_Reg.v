@@ -3,12 +3,12 @@ module MEM_WB_Reg (
     input wire rst,
     input wire [31:0] alu_result_i,
     input wire [31:0] reg_read_data_i,
-    input wire [1:0] reg_write_i,
+    input wire  reg_write_i,
     input wire [1:0] mem_to_reg_i,
 
     output reg [31:0] alu_result_o,
     output reg [31:0] reg_read_data_o,
-    output reg [1:0] reg_write_o,
+    output reg  reg_write_o,
     output reg [1:0] mem_to_reg_o
 
 );

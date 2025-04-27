@@ -4,9 +4,9 @@ module IF_ID_Reg (
     input wire [31:0] pc_i,
     input wire [31:0] pc_4_i,
     input wire [31:0] inst_i,
-    output wire [31:0] pc_o,
-    output wire [31:0] pc_4_o,
-    output wire [31:0] inst_o
+    output reg [31:0] pc_o,
+    output reg [31:0] pc_4_o,
+    output reg [31:0] inst_o
 );
     // TODO:
     // Besides the IF/ID stage register provided in the template file,
