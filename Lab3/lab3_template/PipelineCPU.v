@@ -147,7 +147,7 @@ Mux2to1 #(.size(32)) m_Mux_ALU(
 );
 
 // ID/EX Reg
-ID_EX_Reg m_IF_ID_Reg(
+ID_EX_Reg m_ID_EX_Reg(
     .clk(clk),
     .rst(start),
     .pc_i(pc_current),

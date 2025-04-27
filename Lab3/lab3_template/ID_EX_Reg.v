@@ -53,4 +53,5 @@ module ID_EX_Reg (
             jump_o <= jump_i;
         end
     end
+    
 endmodule
