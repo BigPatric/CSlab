@@ -54,6 +54,18 @@ InstructionMemory m_InstMem(
     .inst(instruct)
 );
 
+// IF/ID Reg
+IF_ID_Reg m_IF_ID_Reg(
+    .clk(clk),
+    .rst(start),
+    .pc_i(pc_current),
+    .pc_4_i(pc_plus4),
+    .inst_i(instruct),
+    .pc_o(pc_current),
+    .pc_4_o(pc_plus4),
+    .inst_o(instruct)
+);
+
 // Control Unit
 Control m_Control(
     .opcode(opcode),
@@ -134,12 +146,33 @@ Mux2to1 #(.size(32)) m_Mux_ALU(
     .out(alu_src_b)
 );
 
-// ALU Control
-ALUCtrl m_ALUCtrl(
-    .ALUOp(alu_op),
-    .funct7(funct7),
-    .funct3(funct3),
-    .ALUCtl(alu_control)
+// ID/EX Reg
+ID_EX_Reg m_IF_ID_Reg(
+    .clk(clk),
+    .rst(start),
+    .pc_i(pc_current),
+    .pc_4_i(pc_plus4),
+    .readData1_i(reg_read_data1),
+    .readData2_i(reg_read_data2),
+    .imm_i(imm),
+    .alu_control_i(alu_control),
+    .mem_read_i(mem_read),
+    .mem_write_i(mem_write),
+    .alu_src_i(alu_src),
+    .reg_write_i(reg_write),
+    .jump_i(jump),
+
+    .pc_o(pc_current),
+    .pc_4_o(pc_plus4),
+    .reg_read_data1_o(reg_read_data1),
+    .reg_read_data2_o(reg_read_data2), 
+    .imm_o(imm),
+    .alu_control_o(alu_control),
+    .mem_read_o(mem_read),
+    .mem_write_o(mem_write),
+    .alu_src_o(alu_src),
+    .reg_write_o(reg_write),
+    .jump_o(jump)
 );
 
 // ALU
@@ -151,6 +184,35 @@ ALU m_ALU(
     .zero(jump)
 );
 
+// ALU Control
+ALUCtrl m_ALUCtrl(
+    .ALUOp(alu_op),
+    .funct7(funct7),
+    .funct3(funct3),
+    .ALUCtl(alu_control)
+);
+
+// EX/MEM Reg
+EX_MEM_Reg m_EX_MEM_Reg(
+    .clk(clk),
+    .rst(start),
+    .alu_result_i(alu_result),
+    .branch_addr_i(pc_plus4),
+    .reg_write_data_i(reg_read_data2),
+    .alu_zero_i(jump),
+    .mem_read_i(mem_read),
+    .mem_write_i(mem_write),
+    .reg_write_i(reg_write),
+
+    .alu_result_o(alu_result),
+    .branch_addr_o(pc_plus4),
+    .reg_write_data_o(reg_read_data2),
+    .alu_zero_o(jump),
+    .mem_read_o(mem_read),
+    .mem_write_o(mem_write),
+    .reg_write_o(reg_write)
+);
+
 // Data Memory
 DataMemory m_DataMemory(
     .rst(start),
@@ -160,6 +222,21 @@ DataMemory m_DataMemory(
     .address(alu_result),
     .writeData(reg_read_data2),
     .readData(mem_read_data)
+);
+
+// MEM/WB Reg
+MEM_WB_Reg m_MEM_WB_Reg(
+    .clk(clk),
+    .rst(start),
+    .alu_result_i(alu_result),
+    .reg_read_data_i(reg_read_data2),
+    .reg_write_i(reg_write),
+    .mem_to_reg_i(mem_to_reg),
+
+    .alu_result_o(alu_result),
+    .reg_read_data_o(reg_read_data2),
+    .reg_write_o(reg_write),
+    .mem_to_reg_o(mem_to_reg)
 );
 
 // Write Data Mux
