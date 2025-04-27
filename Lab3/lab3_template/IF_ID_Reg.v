@@ -4,6 +4,7 @@ module IF_ID_Reg (
     input wire [31:0] pc_i,
     input wire [31:0] pc_4_i,
     input wire [31:0] inst_i,
+    
     output reg [31:0] pc_o,
     output reg [31:0] pc_4_o,
     output reg [31:0] inst_o
@@ -20,16 +21,24 @@ module IF_ID_Reg (
     // 2. Directly specialize the Pipeline Register into distinct modules for each stage,
     //    which makes the design more intuitive and easier to understand.
     // Choose the design approach that best suits your needs.
+
+    reg [31:0] pc_reg;
+    reg [31:0] pc_4_reg;
+    reg [31:0] inst_reg;
+
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
-            pc_o <= 32'b0;
-            pc_4_o <= 32'b0;
-            inst_o <= 32'b0;
+            pc_reg <= 32'b0;   
+            pc_4_reg <= 32'b0;
+            inst_reg <= 32'b0;
         end 
         else begin
-            pc_o <= pc_i;
-            pc_4_o <= pc_4_i;
-            inst_o <= inst_i;
+            pc_o = pc_reg;
+            pc_4_o = pc_4_reg;
+            inst_o = inst_reg;
+            pc_reg = pc_i;
+            pc_4_reg = pc_4_i;
+            inst_reg = inst_i;
         end
     end
 
