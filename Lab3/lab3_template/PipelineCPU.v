@@ -61,6 +61,7 @@ IF_ID_Reg m_IF_ID_Reg(
     .pc_i(pc_current),
     .pc_4_i(pc_plus4),
     .inst_i(instruct),
+
     .pc_o(pc_current_IF_ID),
     .pc_4_o(pc_plus4_IF_ID),
     .inst_o(instruct_IF_ID)
@@ -77,6 +78,7 @@ Control m_Control(
     .funct3(funct3),
     .BrEq(branch_eq),
     .BrLT(branch_lt),
+
     .memRead(mem_read),
     .memtoReg(mem_to_reg), 
     .ALUOp(alu_op),
@@ -117,7 +119,7 @@ BranchComp m_BranchComp(
 
 // Immediate Generator
 ImmGen m_ImmGen(
-    .inst(instruct), 
+    .inst(instruct_IF_ID), 
     .imm(imm)
 );
 
@@ -137,7 +139,7 @@ Adder m_Adder_2(
 // PC Mux
 Mux3to1 #(.size(32)) m_Mux_PC(
     .sel(pc_sel),
-    .s0(pc_plus4_IF_ID),
+    .s0(pc_plus4),
     .s1(pc_branch),
     .s2(alu_result), 
     .out(pc_next)
@@ -177,7 +179,6 @@ ID_EX_Reg m_ID_EX_Reg(
     .mem_write_i(mem_write),
     .alu_src_i(alu_src),
     .reg_write_i(reg_write),
-    .jump_i(jump),
 
     .pc_o(pc_current_ID_EX),
     .pc_4_o(pc_plus4_ID_EX),
@@ -189,7 +190,6 @@ ID_EX_Reg m_ID_EX_Reg(
     .mem_write_o(mem_write_ID_EX),
     .alu_src_o(alu_src_ID_EX),
     .reg_write_o(reg_write_ID_EX),
-    .jump_o(jump_ID_EX)
 );
 
 // ALU

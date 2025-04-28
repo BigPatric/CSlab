@@ -16,7 +16,7 @@ module MEM_WB_Reg (
         if (!rst) begin
             alu_result_o <= 32'b0;
             reg_read_data_o <= 32'b0;
-            reg_write_o <= 2'b0;
+            reg_write_o <= 1'b0;
             mem_to_reg_o <= 2'b0;
         end 
         else begin

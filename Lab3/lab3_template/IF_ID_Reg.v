@@ -24,9 +24,9 @@ module IF_ID_Reg (
 
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
-            pc_reg <= 32'b0;   
-            pc_4_reg <= 32'b0;
-            inst_reg <= 32'b0;
+            pc_o<= 32'b0;   
+            pc_4_o <= 32'b0;
+            inst_o <= 32'b0;
         end 
         else begin
             pc_o <= pc_i;
