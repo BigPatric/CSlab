@@ -22,10 +22,6 @@ module IF_ID_Reg (
     //    which makes the design more intuitive and easier to understand.
     // Choose the design approach that best suits your needs.
 
-    reg [31:0] pc_reg;
-    reg [31:0] pc_4_reg;
-    reg [31:0] inst_reg;
-
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
             pc_reg <= 32'b0;   
@@ -33,12 +29,9 @@ module IF_ID_Reg (
             inst_reg <= 32'b0;
         end 
         else begin
-            pc_o <= pc_reg;
-            pc_4_o <= pc_4_reg;
-            inst_o <= inst_reg;
-            pc_reg <= pc_i;
-            pc_4_reg <= pc_4_i;
-            inst_reg <= inst_i;
+            pc_o <= pc_i;
+            pc_4_o <= pc_4_i;
+            inst_o <= inst_i;
         end
     end
 
