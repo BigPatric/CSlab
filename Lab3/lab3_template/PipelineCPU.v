@@ -98,7 +98,7 @@ Register m_Register(
     .regWrite(reg_write),
     .readReg1(readReg1),
     .readReg2(readReg2),
-    .writeReg(writeReg),
+    .writeReg(write_reg_MEM_WB),
     .writeData(write_data),
     .readData1(reg_read_data1),
     .readData2(reg_read_data2)
@@ -162,7 +162,7 @@ wire [3:0] alu_control_ID_EX;
 wire mem_read_ID_EX;
 wire mem_write_ID_EX;
 wire alu_src_ID_EX;
-wire reg_write_ID_EX;
+wire [4:0]write_reg_ID_EX;
 wire jump_ID_EX;
 
 // ID/EX Reg
@@ -178,7 +178,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .mem_read_i(mem_read),
     .mem_write_i(mem_write),
     .alu_src_i(alu_src),
-    .reg_write_i(reg_write),
+    .write_reg_i(writeReg),
+    .jump_i(jump),
 
     .pc_o(pc_current_ID_EX),
     .pc_4_o(pc_plus4_ID_EX),
@@ -189,7 +190,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .mem_read_o(mem_read_ID_EX),
     .mem_write_o(mem_write_ID_EX),
     .alu_src_o(alu_src_ID_EX),
-    .reg_write_o(reg_write_ID_EX),
+    .write_reg_o(write_reg_ID_EX),
+    .jump_o(jump_ID_EX)
 );
 
 // ALU
@@ -215,7 +217,7 @@ wire [31:0]reg_read_data2_EX_MEM;
 wire jump_EX_MEM;
 wire mem_read_EX_MEM;
 wire mem_write_EX_MEM;
-wire reg_write_EX_MEM;
+wire [4:0]write_reg_EX_MEM;
 // EX/MEM Reg
 EX_MEM_Reg m_EX_MEM_Reg(
     .clk(clk),
@@ -226,7 +228,7 @@ EX_MEM_Reg m_EX_MEM_Reg(
     .alu_zero_i(jump_ID_EX),
     .mem_read_i(mem_read_ID_EX),
     .mem_write_i(mem_write_ID_EX),
-    .reg_write_i(reg_write_ID_EX),
+    .write_reg_i(write_reg_ID_EX),
 
     .alu_result_o(alu_result_EX_MEM),
     .branch_addr_o(pc_plus4_EX_MEM),
@@ -234,7 +236,7 @@ EX_MEM_Reg m_EX_MEM_Reg(
     .alu_zero_o(jump_EX_MEM),
     .mem_read_o(mem_read_EX_MEM),
     .mem_write_o(mem_write_EX_MEM),
-    .reg_write_o(reg_write_EX_MEM)
+    .write_reg_o(write_reg_EX_MEM)
 );
 
 // Data Memory
@@ -251,7 +253,7 @@ DataMemory m_DataMemory(
 
 wire [31:0]alu_result_MEM_WB;
 wire [31:0]mem_read_data_MEM_WB;
-wire reg_write_MEM_WB;
+wire [4:0] write_reg_MEM_WB;
 wire [1:0] mem_to_reg_MEM_WB;
 // MEM/WB Reg
 MEM_WB_Reg m_MEM_WB_Reg(
@@ -259,12 +261,12 @@ MEM_WB_Reg m_MEM_WB_Reg(
     .rst(start),
     .alu_result_i(alu_result_EX_MEM),
     .reg_read_data_i(mem_read_data),
-    .reg_write_i(reg_write_EX_MEM),
+    .write_reg_i(write_reg_EX_MEM),
     .mem_to_reg_i(mem_to_reg),
 
     .alu_result_o(alu_result_MEM_WB),
     .reg_read_data_o(mem_read_data_MEM_WB),
-    .reg_write_o(reg_write_MEM_WB),
+    .write_reg_o(write_reg_MEM_WB),
     .mem_to_reg_o(mem_to_reg_MEM_WB)
 );
 

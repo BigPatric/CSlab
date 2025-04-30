@@ -22,12 +22,12 @@ class VPipelineCPU___024root final : public VerilatedModule {
     CData/*0:0*/ PipelineCPU__DOT__mem_read_ID_EX;
     CData/*0:0*/ PipelineCPU__DOT__mem_write_ID_EX;
     CData/*0:0*/ PipelineCPU__DOT__alu_src_ID_EX;
-    CData/*0:0*/ PipelineCPU__DOT__reg_write_ID_EX;
+    CData/*4:0*/ PipelineCPU__DOT__write_reg_ID_EX;
     CData/*0:0*/ PipelineCPU__DOT__jump_ID_EX;
     CData/*0:0*/ PipelineCPU__DOT__jump_EX_MEM;
     CData/*0:0*/ PipelineCPU__DOT__mem_write_EX_MEM;
-    CData/*0:0*/ PipelineCPU__DOT__reg_write_EX_MEM;
-    CData/*0:0*/ PipelineCPU__DOT__reg_write_MEM_WB;
+    CData/*4:0*/ PipelineCPU__DOT__write_reg_EX_MEM;
+    CData/*4:0*/ PipelineCPU__DOT__write_reg_MEM_WB;
     CData/*1:0*/ PipelineCPU__DOT__mem_to_reg_MEM_WB;
     CData/*7:0*/ PipelineCPU__DOT__m_Control__DOT__crtl;
     CData/*6:0*/ __Vdlyvdim0__PipelineCPU__DOT__m_DataMemory__DOT__data_memory__v0;

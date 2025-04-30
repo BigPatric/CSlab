@@ -589,7 +589,7 @@ VL_ATTR_COLD void VPipelineCPU___024root___ctor_var_reset(VPipelineCPU___024root
     vlSelf->PipelineCPU__DOT__mem_read_ID_EX = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__mem_write_ID_EX = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__alu_src_ID_EX = VL_RAND_RESET_I(1);
-    vlSelf->PipelineCPU__DOT__reg_write_ID_EX = VL_RAND_RESET_I(1);
+    vlSelf->PipelineCPU__DOT__write_reg_ID_EX = VL_RAND_RESET_I(5);
     vlSelf->PipelineCPU__DOT__jump_ID_EX = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__alu_result_EX_MEM = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__pc_plus4_EX_MEM = VL_RAND_RESET_I(32);
@@ -597,10 +597,10 @@ VL_ATTR_COLD void VPipelineCPU___024root___ctor_var_reset(VPipelineCPU___024root
     vlSelf->PipelineCPU__DOT__jump_EX_MEM = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__mem_read_EX_MEM = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__mem_write_EX_MEM = VL_RAND_RESET_I(1);
-    vlSelf->PipelineCPU__DOT__reg_write_EX_MEM = VL_RAND_RESET_I(1);
+    vlSelf->PipelineCPU__DOT__write_reg_EX_MEM = VL_RAND_RESET_I(5);
     vlSelf->PipelineCPU__DOT__alu_result_MEM_WB = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__mem_read_data_MEM_WB = VL_RAND_RESET_I(32);
-    vlSelf->PipelineCPU__DOT__reg_write_MEM_WB = VL_RAND_RESET_I(1);
+    vlSelf->PipelineCPU__DOT__write_reg_MEM_WB = VL_RAND_RESET_I(5);
     vlSelf->PipelineCPU__DOT__mem_to_reg_MEM_WB = VL_RAND_RESET_I(2);
     for (int __Vi0 = 0; __Vi0 < 128; ++__Vi0) {
         vlSelf->PipelineCPU__DOT__m_InstMem__DOT__insts[__Vi0] = VL_RAND_RESET_I(8);
