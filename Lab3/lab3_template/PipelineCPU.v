@@ -145,7 +145,6 @@ Mux3to1 #(.size(32)) m_Mux_PC(
     .out(pc_next)
 );
 
-
 // ID/EX Reg
 ID_EX_Reg m_ID_EX_Reg(
     .clk(clk),

@@ -43,4 +43,5 @@ module EX_MEM_Reg (
             mem_read_o <= mem_read_i;
             mem_to_reg_o <= mem_to_reg_i;
         end
+    end
 endmodule
