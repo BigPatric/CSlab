@@ -2,7 +2,7 @@ module ID_EX_Reg (
     input wire clk,
     input wire rst,
     // WB
-    input wire regWrite_i,
+    input wire reg_write_i,
     input wire [1:0] mem_to_reg_i,
     //M
     input wire mem_read_i,
@@ -17,7 +17,7 @@ module ID_EX_Reg (
     input wire [31:0] imm_i,
     input wire [4:0] write_reg_i,
 
-    output reg regWrite_o,
+    output reg reg_write_o,
     output reg [1:0] mem_to_reg_o,
     output reg mem_read_o,
     output reg mem_write_o,
@@ -32,7 +32,7 @@ module ID_EX_Reg (
 
     always @(posedge clk, negedge rst)begin
         if(!rst)begin
-            regWrite_o <= 1'b0;
+            reg_write_o <= 1'b0;
             mem_to_reg_o <= 2'b0;
             mem_read_o <= 1'b0;
             mem_write_o <= 1'b0;
@@ -45,7 +45,7 @@ module ID_EX_Reg (
             write_reg_o <= 5'b0;
         end
         else begin
-            regWrite_o <= regWrite_i;
+            reg_write_o <= reg_write_i;
             mem_to_reg_o <= mem_to_reg_i;
             mem_read_o <= mem_read_i;
             mem_write_o <= mem_write_i;

@@ -145,7 +145,7 @@ Mux3to1 #(.size(32)) m_Mux_PC(
     .out(pc_next)
 );
 wire reg_write_ID_EX;
-wire mem_to_reg_ID_EX;
+wire [1:0]mem_to_reg_ID_EX;
 wire mem_read_ID_EX;
 wire mem_write_ID_EX;
 wire alu_src_ID_EX;
@@ -160,7 +160,7 @@ wire [4:0] writeReg_ID_EX;
 ID_EX_Reg m_ID_EX_Reg(
     .clk(clk),
     .rst(start),
-    .regWrite_i(reg_write),
+    .reg_write_i(reg_write),
     .mem_to_reg_i(mem_to_reg),
     .mem_read_i(mem_read),
     .mem_write_i(mem_write),
@@ -172,7 +172,7 @@ ID_EX_Reg m_ID_EX_Reg(
     .imm_i(imm),
     .write_reg_i(writeReg),
 
-    .regWrite_o(reg_write_ID_EX),
+    .reg_write_o(reg_write_ID_EX),
     .mem_to_reg_o(mem_to_reg_ID_EX),
     .mem_read_o(mem_read_ID_EX),
     .mem_write_o(mem_write_ID_EX),
@@ -268,14 +268,14 @@ MEM_WB_Reg m_MEM_WB_Reg(
     .dmem_read_data_i(mem_read_data),
     .write_reg_i(write_reg_EX_MEM),
     .mem_to_reg_i(mem_to_reg_EX_MEM),
-    .regWrite_i(reg_write_EX_MEM),
+    .reg_write_i(reg_write_EX_MEM),
     .pc_4_i(pc_plus4_EX_MEM),
 
     .alu_result_o(alu_result_MEM_WB),
     .dmem_read_data_o(mem_read_data_MEM_WB),
     .write_reg_o(write_reg_MEM_WB),
     .mem_to_reg_o(mem_to_reg_MEM_WB),
-    .regWrite_o(reg_write_MEM_WB),
+    .reg_write_o(reg_write_MEM_WB),
     .pc_4_o(pc_plus4_MEM_WB)
 );
 
