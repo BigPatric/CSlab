@@ -144,6 +144,17 @@ Mux3to1 #(.size(32)) m_Mux_PC(
     .s2(alu_result), 
     .out(pc_next)
 );
+wire reg_write_ID_EX;
+wire mem_to_reg_ID_EX;
+wire mem_read_ID_EX;
+wire mem_write_ID_EX;
+wire alu_src_ID_EX;
+wire [1:0] alu_op_ID_EX;
+wire [31:0] pc_plus4_ID_EX;
+wire [31:0] reg_read_data1_ID_EX;
+wire [31:0] reg_read_data2_ID_EX;
+wire [31:0] imm_ID_EX;
+wire [4:0] writeReg_ID_EX;
 
 // ID/EX Reg
 ID_EX_Reg m_ID_EX_Reg(
