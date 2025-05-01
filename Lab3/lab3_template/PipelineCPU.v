@@ -185,7 +185,7 @@ ID_EX_Reg m_ID_EX_Reg(
     .read_data1_o(reg_read_data1_ID_EX),
     .read_data2_o(reg_read_data2_ID_EX),
     .imm_o(imm_ID_EX),
-    .write_reg_o(writeReg_ID_EX)
+    .write_reg_o(writeReg_ID_EX),
     .funct3_o(funct3_ID_EX),
     .funct7_o(funct7_ID_EX)
 );

@@ -343,11 +343,9 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
     vlSelf->PipelineCPU__DOT__alu_src_b = ((IData)(vlSelf->PipelineCPU__DOT__alu_src_ID_EX)
                                             ? vlSelf->PipelineCPU__DOT__imm_ID_EX
                                             : vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX);
-    __Vtableidx2 = ((0x20U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                              >> 0x19U)) | ((0x1cU 
-                                             & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                                                >> 0xaU)) 
-                                            | (IData)(vlSelf->PipelineCPU__DOT__alu_op_ID_EX)));
+    __Vtableidx2 = (((IData)(vlSelf->PipelineCPU__DOT__funct7_ID_EX) 
+                     << 5U) | (((IData)(vlSelf->PipelineCPU__DOT__funct3_ID_EX) 
+                                << 2U) | (IData)(vlSelf->PipelineCPU__DOT__alu_op_ID_EX)));
     vlSelf->PipelineCPU__DOT__alu_control = VPipelineCPU__ConstPool__TABLE_hc2a4223b_0
         [__Vtableidx2];
     vlSelf->PipelineCPU__DOT__reg_read_data1 = vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
@@ -586,6 +584,8 @@ VL_ATTR_COLD void VPipelineCPU___024root___ctor_var_reset(VPipelineCPU___024root
     vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__imm_ID_EX = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__writeReg_ID_EX = VL_RAND_RESET_I(5);
+    vlSelf->PipelineCPU__DOT__funct3_ID_EX = VL_RAND_RESET_I(3);
+    vlSelf->PipelineCPU__DOT__funct7_ID_EX = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__alu_result_EX_MEM = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__pc_plus4_EX_MEM = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__reg_read_data2_EX_MEM = VL_RAND_RESET_I(32);
