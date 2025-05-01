@@ -10,7 +10,9 @@ module ID_EX_Reg (
     //EX
     input wire alu_src_i,
     input wire [1:0]alu_op_i,
-    
+    input wire [2:0] funct3_i,
+    input wire funct7_i,
+
     input wire [31:0] pc_4_i,
     input wire [31:0] read_data1_i,
     input wire [31:0] read_data2_i,
@@ -27,7 +29,9 @@ module ID_EX_Reg (
     output reg [31:0] read_data1_o,
     output reg [31:0] read_data2_o,
     output reg [31:0] imm_o,
-    output reg [4:0] write_reg_o
+    output reg [4:0] write_reg_o,
+    output reg [2:0] funct3_o,
+    output reg funct7_o
 );
 
     always @(posedge clk, negedge rst)begin
@@ -43,6 +47,8 @@ module ID_EX_Reg (
             read_data2_o <= 32'b0;
             imm_o <= 32'b0;
             write_reg_o <= 5'b0;
+            funct3_o <= 3'b0;
+            funct7_o <= 1'b0;
         end
         else begin
             reg_write_o <= reg_write_i;
@@ -56,6 +62,8 @@ module ID_EX_Reg (
             read_data2_o <= read_data2_i;
             imm_o <= imm_i;
             write_reg_o <= write_reg_i; 
+            funct3_o <= funct3_i;
+            funct7_o <= funct7_i;
         end
     end
     

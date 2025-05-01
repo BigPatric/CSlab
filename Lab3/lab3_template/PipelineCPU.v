@@ -155,7 +155,8 @@ wire [31:0] reg_read_data1_ID_EX;
 wire [31:0] reg_read_data2_ID_EX;
 wire [31:0] imm_ID_EX;
 wire [4:0] writeReg_ID_EX;
-
+wire [2:0] funct3_ID_EX;
+wire funct7_ID_EX;
 // ID/EX Reg
 ID_EX_Reg m_ID_EX_Reg(
     .clk(clk),
@@ -171,6 +172,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .read_data2_i(reg_read_data2),
     .imm_i(imm),
     .write_reg_i(writeReg),
+    .funct3_i(funct3),
+    .funct7_i(funct7),
 
     .reg_write_o(reg_write_ID_EX),
     .mem_to_reg_o(mem_to_reg_ID_EX),
@@ -183,6 +186,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .read_data2_o(reg_read_data2_ID_EX),
     .imm_o(imm_ID_EX),
     .write_reg_o(writeReg_ID_EX)
+    .funct3_o(funct3_ID_EX),
+    .funct7_o(funct7_ID_EX)
 );
 
 // ALU Source Mux
@@ -205,8 +210,8 @@ ALU m_ALU(
 // ALU Control
 ALUCtrl m_ALUCtrl(
     .ALUOp(alu_op_ID_EX),
-    .funct7(funct7),
-    .funct3(funct3),
+    .funct7(funct7_ID_EX),
+    .funct3(funct3_ID_EX),
     .ALUCtl(alu_control)
 );
 
