@@ -22,6 +22,13 @@ module HazardDetection(
     // Data hazards can arise when a branch instruction depends on the result of previous instructions,
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
+    always @(*)begin
+        if(mem_)
+
+
+
+
+    end
 
 
 endmodule
