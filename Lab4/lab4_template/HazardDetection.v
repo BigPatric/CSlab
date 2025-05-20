@@ -23,8 +23,15 @@ module HazardDetection(
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
     always @(*)begin
-        if(mem_)
+        RePC = 0;
+        Flush_HD = 0;
 
+        if(mem_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1)||(ex_Rd == id_R2)))begin
+            RePC = 1; // re-fetch the flushed instruction
+            Flush_HD = 1; // flush IF/ID reg & ID/EX reg
+        end
+
+        else if ()
 
 
 
