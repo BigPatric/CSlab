@@ -67,6 +67,20 @@ IF_ID_Reg m_IF_ID_Reg(
     .inst_o(instruct_IF_ID)
 );
 
+HazardDetection hazard_detection_unit(
+    .opcode(instruct_IF_ID[6:0]),
+    .memtoReg(mem_to_reg),
+    .id_R1(instruct_IF_ID[19:15]),
+    .id_R2(instruct_IF_ID[24:20]),
+    .ex_Rd(writeReg_ID_EX),
+    .mem_Rd(writeReg_EX_MEM),
+    .ID_EX_MemRead(mem_read_ID_EX),
+    .mem_MemRead(mem_read_EX_MEM),
+    .RePC(RePC),
+    .Flush_HD(Flush_HD)
+);
+
+
 // Assign instruct fields
 wire [6:0]opcode = instruct_IF_ID[6:0];
 wire [2:0]funct3 = instruct_IF_ID[14:12];
@@ -222,9 +236,22 @@ ID_EX_Reg m_ID_EX_Reg(
     .funct7_o(funct7_ID_EX)
 );
 
+Forwarding_Unit m_Forwarding_Unit(
+    .id_R1(instruct_IF_ID[19:15]),
+    .id_R2(instruct_IF_ID[24:20]),
+    .ex_R1(writeReg_ID_EX),
+    .ex_R2(writeReg_ID_EX),
+    .mem_Rd(write_reg_EX_MEM),
+    .wb_Rd(write_reg_MEM_WB),
+    .mem_RegWrite(reg_write_EX_MEM),
+    .wb_RegWrite(reg_write_MEM_WB),
+    .id_ForwardA(ex_ForwardA),
+    .id_ForwardB(ex_ForwardB),
+    .ex_ForwardA(ex_ForwardA),
+    .ex_ForwardB(ex_ForwardB)
+);
 
 // 3to1 of reg_read_data1 , after ID/EX Reg
-
 wire [31:0] reg_read_data1_ID_EX_mux;
 Mux3to1 #(.size(32)) m_Mux_reg_read_data1(
     .sel(ex_ForwardA),
