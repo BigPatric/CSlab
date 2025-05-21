@@ -109,10 +109,26 @@ Register m_Register(
 assign r = m_Register.regs;
 // ======= for validation =======
 
+wire [31:0] reg_readData1_mux;
+wire [31:0] reg_readData2_mux;
+// The Muxs after Reg[]
+Mux2to1 #(.size(32)) mux_readData1(
+    .sel(id_ForwardA),
+    .s0(reg_read_data1),
+    .s1(alu_result_EX_MEM),
+    .out(reg_readData1_mux))
+);
+Mux2to1 #(.size(32)) mux_readData2(
+    .sel(id_ForwardB),
+    .s0(reg_read_data2),
+    .s1(alu_result_EX_MEM),
+    .out(reg_readData2_mux))
+);
+
 // Branch Comparator
 BranchComp m_BranchComp(
-    .A(reg_read_data1),
-    .B(reg_read_data2),
+    .A(reg_readData1_mux),
+    .B(reg_readData2_mux),
     .BrEq(branch_eq),
     .BrLT(branch_lt)
 );
@@ -136,14 +152,30 @@ Adder m_Adder_2(
     .sum(pc_branch)
 );
 
+// // PC Mux
+// Mux3to1 #(.size(32)) m_Mux_PC(
+//     .sel(pc_sel),
+//     .s0(pc_plus4),
+//     .s1(pc_branch),
+//     .s2(alu_result), 
+//     .out(pc_next)
+// );
+
 // PC Mux
-Mux3to1 #(.size(32)) m_Mux_PC(
-    .sel(pc_sel),
+wire [31:0] pc_S_out;
+Mux2to1 #(.size(32)) m_Mux_PC_Jump(
+    .sel(PCSel),
     .s0(pc_plus4),
     .s1(pc_branch),
-    .s2(alu_result), 
+    .out(pc_S_out)
+);
+Mux2to1 #(.size(32)) m_Mux_PC(
+    .sel(RePC),
+    .s0(pc_S_out),
+    .s1(pc_current),
     .out(pc_next)
 );
+
 wire reg_write_ID_EX;
 wire [1:0]mem_to_reg_ID_EX;
 wire mem_read_ID_EX;
@@ -168,8 +200,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .alu_src_i(alu_src),
     .alu_op_i(alu_op),
     .pc_4_i(pc_plus4_IF_ID),
-    .read_data1_i(reg_read_data1),
-    .read_data2_i(reg_read_data2),
+    .read_data1_i(reg_readData1_mux),
+    .read_data2_i(reg_readData2_mux),
     .imm_i(imm),
     .write_reg_i(writeReg),
     .funct3_i(funct3),
@@ -190,10 +222,32 @@ ID_EX_Reg m_ID_EX_Reg(
     .funct7_o(funct7_ID_EX)
 );
 
+
+// 3to1 of reg_read_data1 , after ID/EX Reg
+
+wire [31:0] reg_read_data1_ID_EX_mux;
+Mux3to1 #(.size(32)) m_Mux_reg_read_data1(
+    .sel(ex_ForwardA),
+    .s0(reg_read_data1_ID_EX),
+    .s1(write_data),
+    .s2(alu_result_EX_MEM),
+    .out(reg_read_data1_ID_EX_mux)
+);
+
+wire [31:0]reg_read_data2_ID_EX_mux;
+// 3to1 of alu_src_b
+Mux3to1 #(.size(32)) m_Mux_reg_read_data2(
+    .sel(ex_ForwardB),
+    .s0(reg_read_data2_ID_EX),
+    .s1(write_data),
+    .s2(alu_result_EX_MEM),
+    .out(reg_read_data2_ID_EX_mux)
+);
+
 // ALU Source Mux
 Mux2to1 #(.size(32)) m_Mux_ALU(
     .sel(alu_src_ID_EX),
-    .s0(reg_read_data2_ID_EX),
+    .s0(reg_read_data2_ID_EX_mux),
     .s1(imm_ID_EX),
     .out(alu_src_b)
 );
@@ -201,7 +255,7 @@ Mux2to1 #(.size(32)) m_Mux_ALU(
 // ALU
 ALU m_ALU(
     .ALUctl(alu_control),
-    .A(reg_read_data1_ID_EX),
+    .A(reg_read_data1_ID_EX_mux),
     .B(alu_src_b),
     .ALUOut(alu_result),
     .zero(jump)
@@ -230,7 +284,7 @@ EX_MEM_Reg m_EX_MEM_Reg(
     .rst(start),
     .alu_result_i(alu_result),
     .pc_4_i(pc_plus4_ID_EX),
-    .readData2_i(reg_read_data2_ID_EX),
+    .readData2_i(reg_read_data2_ID_EX_mux),
     .write_reg_i(writeReg_ID_EX),
     .mem_write_i(mem_write_ID_EX),
     .mem_read_i(mem_read_ID_EX),
