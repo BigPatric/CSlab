@@ -66,7 +66,8 @@ IF_ID_Reg m_IF_ID_Reg(
     .pc_4_o(pc_plus4_IF_ID),
     .inst_o(instruct_IF_ID)
 );
-
+wire RePC;
+wire Flush_HD;
 HazardDetection hazard_detection_unit(
     .opcode(instruct_IF_ID[6:0]),
     .memtoReg(mem_to_reg),
@@ -236,6 +237,12 @@ ID_EX_Reg m_ID_EX_Reg(
     .funct7_o(funct7_ID_EX)
 );
 
+wire id_ForwardA;
+wire id_ForwardB;
+
+wire [1:0]ex_ForwardA;
+wire [1:0]ex_ForwardB;
+
 Forwarding_Unit m_Forwarding_Unit(
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
@@ -245,8 +252,8 @@ Forwarding_Unit m_Forwarding_Unit(
     .wb_Rd(write_reg_MEM_WB),
     .mem_RegWrite(reg_write_EX_MEM),
     .wb_RegWrite(reg_write_MEM_WB),
-    .id_ForwardA(ex_ForwardA),
-    .id_ForwardB(ex_ForwardB),
+    .id_ForwardA(id_ForwardA),
+    .id_ForwardB(id_ForwardB),
     .ex_ForwardA(ex_ForwardA),
     .ex_ForwardB(ex_ForwardB)
 );
