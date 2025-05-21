@@ -29,6 +29,8 @@ module Forwarding_Unit (
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
 
     always @(*) begin
+        id_ForwardA = 0;
+        id_ForwardB = 0;
         ex_ForwardA = 2'b00;
         ex_ForwardB = 2'b00;
 
@@ -43,5 +45,11 @@ module Forwarding_Unit (
             ex_ForwardA = 2'b01;
         if (wb_RegWrite && (wb_Rd != 0) && (wb_Rd == ex_R2) && !(mem_RegWrite && (mem_Rd != 0) && (mem_Rd == ex_R2)))
             ex_ForwardB = 2'b01;
+
+         // ID hazard: from MEM stage (for branch in ID)
+        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == id_R1))
+            id_ForwardA = 1'b1;
+        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == id_R2))
+            id_ForwardB = 1'b1;  
     end
 endmodule

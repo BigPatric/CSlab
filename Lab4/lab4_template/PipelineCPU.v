@@ -74,7 +74,7 @@ HazardDetection hazard_detection_unit(
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
     .ex_Rd(writeReg_ID_EX),
-    .mem_Rd(writeReg_EX_MEM),
+    .mem_Rd(write_Reg_EX_MEM),
     .ID_EX_MemRead(mem_read_ID_EX),
     .mem_MemRead(mem_read_EX_MEM),
     .RePC(RePC),
@@ -87,6 +87,8 @@ wire [6:0]opcode = instruct_IF_ID[6:0];
 wire [2:0]funct3 = instruct_IF_ID[14:12];
 wire funct7 = instruct_IF_ID[30];
 
+wire flushCtrl;
+wire PCorR1;
 // Control Unit
 Control m_Control(
     .opcode(opcode),
@@ -100,7 +102,9 @@ Control m_Control(
     .memWrite(mem_write),
     .ALUSrc(alu_src),
     .regWrite(reg_write),
-    .PCSel(pc_sel)
+    .PCSel(pc_sel),
+    .flushCtrl(flushCtrl),
+    .PCorR1(PCorR1)
 );
 
 wire [4:0]readReg1 = instruct_IF_ID[19:15];
@@ -179,7 +183,7 @@ Adder m_Adder_2(
 // PC Mux
 wire [31:0] pc_S_out;
 Mux2to1 #(.size(32)) m_Mux_PC_Jump(
-    .sel(PCSel),
+    .sel(pc_sel),
     .s0(pc_plus4),
     .s1(pc_branch),
     .out(pc_S_out)
