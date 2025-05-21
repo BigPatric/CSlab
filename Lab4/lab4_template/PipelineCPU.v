@@ -182,10 +182,11 @@ Adder m_Adder_2(
 
 // PC Mux
 wire [31:0] pc_S_out;
-Mux2to1 #(.size(32)) m_Mux_PC_Jump(
+Mux3to1 #(.size(32)) m_Mux_PC_Jump(
     .sel(pc_sel),
     .s0(pc_plus4),
     .s1(pc_branch),
+    .s2(pc_branch),
     .out(pc_S_out)
 );
 Mux2to1 #(.size(32)) m_Mux_PC(
