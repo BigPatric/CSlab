@@ -51,7 +51,7 @@ module ID_EX_Reg (
             funct3_o <= 3'b0;
             funct7_o <= 1'b0;
         end
-        else if(stall)begin
+        else if(Flush_HD)begin
             reg_write_o <= 1'b0;
             mem_to_reg_o <= 2'b0;
             mem_read_o <= 1'b0;
