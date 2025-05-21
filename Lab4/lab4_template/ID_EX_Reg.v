@@ -18,6 +18,7 @@ module ID_EX_Reg (
     input wire [31:0] read_data2_i,
     input wire [31:0] imm_i,
     input wire [4:0] write_reg_i,
+    input wire Flush_HD,
 
     output reg reg_write_o,
     output reg [1:0] mem_to_reg_o,
@@ -36,6 +37,21 @@ module ID_EX_Reg (
 
     always @(posedge clk, negedge rst)begin
         if(!rst)begin
+            reg_write_o <= 1'b0;
+            mem_to_reg_o <= 2'b0;
+            mem_read_o <= 1'b0;
+            mem_write_o <= 1'b0;
+            alu_src_o <= 1'b0;
+            alu_op_o <= 2'b0;
+            pc_4_o <= 32'b0;
+            read_data1_o <= 32'b0;
+            read_data2_o <= 32'b0;
+            imm_o <= 32'b0;
+            write_reg_o <= 5'b0;
+            funct3_o <= 3'b0;
+            funct7_o <= 1'b0;
+        end
+        else if(stall)begin
             reg_write_o <= 1'b0;
             mem_to_reg_o <= 2'b0;
             mem_read_o <= 1'b0;

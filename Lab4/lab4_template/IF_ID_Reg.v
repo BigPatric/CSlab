@@ -4,6 +4,8 @@ module IF_ID_Reg (
     input wire [31:0] pc_i,
     input wire [31:0] pc_4_i,
     input wire [31:0] inst_i,
+    input wire Flush_HD,
+    input wire flushCtrl,
     
     output wire [31:0] pc_o,
     output wire [31:0] pc_4_o,
@@ -35,6 +37,11 @@ module IF_ID_Reg (
             pc_4_t <= 32'b0;
             inst_t <= 32'b0;
         end 
+        else if(Flush_HD|| flushCtrl)begin
+            pc_t <= 32'b0;
+            pc_4_t <= 32'b0;
+            inst_t <= 32'b0;
+        end
         else begin
             pc_t <= pc_i;
             pc_4_t <= pc_4_i;

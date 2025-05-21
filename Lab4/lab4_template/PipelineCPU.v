@@ -236,6 +236,7 @@ ID_EX_Reg m_ID_EX_Reg(
     .write_reg_i(writeReg),
     .funct3_i(funct3),
     .funct7_i(funct7),
+    .Flush_HD(Flush_HD),
 
     .reg_write_o(reg_write_ID_EX),
     .mem_to_reg_o(mem_to_reg_ID_EX),
