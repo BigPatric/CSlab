@@ -112,13 +112,13 @@ assign r = m_Register.regs;
 wire [31:0] reg_readData1_mux;
 wire [31:0] reg_readData2_mux;
 // The Muxs after Reg[]
-Mux2to1 #(.size(32)) mux_readData1(
+Mux2to1 #(.size(32)) mux_readData1((
     .sel(id_ForwardA),
     .s0(reg_read_data1),
     .s1(alu_result_EX_MEM),
     .out(reg_readData1_mux))
 );
-Mux2to1 #(.size(32)) mux_readData2(
+Mux2to1 #(.size(32)) mux_readData2((
     .sel(id_ForwardB),
     .s0(reg_read_data2),
     .s1(alu_result_EX_MEM),
