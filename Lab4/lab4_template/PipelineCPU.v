@@ -30,6 +30,16 @@ wire [1:0] pc_sel;
 wire [31:0] shift_one;
 
 
+wire [31:0] alu_result_EX_MEM;
+wire [31:0] pc_plus4_EX_MEM;
+wire [31:0] reg_read_data2_EX_MEM;
+wire [4:0] write_reg_EX_MEM;
+wire mem_write_EX_MEM;
+wire mem_read_EX_MEM;
+wire reg_write_EX_MEM;
+wire [1:0] mem_to_reg_EX_MEM;
+
+
 // Program Counter
 PC m_PC(
     .clk(clk),
@@ -74,7 +84,7 @@ HazardDetection hazard_detection_unit(
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
     .ex_Rd(writeReg_ID_EX),
-    .mem_Rd(write_Reg_EX_MEM),
+    .mem_Rd(write_reg_EX_MEM),
     .ID_EX_MemRead(mem_read_ID_EX),
     .mem_MemRead(mem_read_EX_MEM),
     .RePC(RePC),
@@ -308,14 +318,7 @@ ALUCtrl m_ALUCtrl(
     .ALUCtl(alu_control)
 );
 
-wire [31:0] alu_result_EX_MEM;
-wire [31:0] pc_plus4_EX_MEM;
-wire [31:0] reg_read_data2_EX_MEM;
-wire [4:0] write_reg_EX_MEM;
-wire mem_write_EX_MEM;
-wire mem_read_EX_MEM;
-wire reg_write_EX_MEM;
-wire [1:0] mem_to_reg_EX_MEM;
+
 
 // EX/MEM Reg
 EX_MEM_Reg m_EX_MEM_Reg(

@@ -63,6 +63,7 @@ module Control (
                     end
                 endcase 
             end
+            default: crtl = 8'b0_00_00_0_0_0;
         endcase
     end
 
