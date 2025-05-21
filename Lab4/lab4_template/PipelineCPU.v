@@ -71,6 +71,8 @@ IF_ID_Reg m_IF_ID_Reg(
     .pc_i(pc_current),
     .pc_4_i(pc_plus4),
     .inst_i(instruct),
+    .Flush_HD(Flush_HD),
+    .flushCtrl(flushCtrl),
 
     .pc_o(pc_current_IF_ID),
     .pc_4_o(pc_plus4_IF_ID),
