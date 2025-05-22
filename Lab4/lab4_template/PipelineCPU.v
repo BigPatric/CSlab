@@ -176,9 +176,17 @@ ShiftLeftOne m_ShiftLeftOne(
     .o(shift_one)
 );
 
+wire [31:0]pc_current_IF_ID_mux;
+Mux2to1 #(.size(32)) m_Mux_PC_Branch(
+    .sel(PCorR1),
+    .s0(pc_current_IF_ID),
+    .s1(reg_readData1_mux),
+    .out(pc_current_IF_ID_mux)
+);
+
 // Branch Target Adder
 Adder m_Adder_2(
-    .a(pc_current_IF_ID),
+    .a(pc_current_IF_ID_mux),
     .b(shift_one),
     .sum(pc_branch)
 );
