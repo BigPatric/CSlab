@@ -10,400 +10,452 @@ module PipelineCPU (
 // The rst signal is active low, which means the module will reset if the rst signal is zero.
 // And you should follow this design.
 
-// Wires for interconnections
-wire [31:0] pc_current;
-wire [31:0] pc_next;
+// TODO: connect wire to realize PipelineCPU
+// The following provides simple template,
+// you can modify it as you wish except I/O pin and register module
+
+//PC output
+wire [31:0] pc_o;
+
+//Adder1 output 
+wire [31:0] Four = 32'h00000004;
 wire [31:0] pc_plus4;
-wire [31:0] pc_branch;
 
-wire [31:0] instruct;
-wire [31:0] imm;
-wire [31:0] reg_read_data1, reg_read_data2;
-wire [31:0] alu_result, mem_read_data, write_data;
-wire [31:0] alu_src_b;
-wire [3:0] alu_control;
-wire branch_eq, branch_lt, mem_read, mem_write, alu_src, reg_write, jump;
-wire [1:0] mem_to_reg; 
-wire [1:0] alu_op;
-wire [1:0] pc_sel;
+//instruction memory output
+wire [31:0] inst;
 
-wire [31:0] shift_one;
+//m_reg output
+wire [31:0]readData1 , readData2;
+
+// Branch comp output
+wire BrEq ,BrLT;
+
+//imm Gen output
+wire [31:0]imm;
+
+//shift left 1 output
+wire [31:0] sl_one;
+
+//adder2 output
+wire [31:0] adder2_out;
+
+// //mux3 pc output
+// wire [31:0] pc_next;
+
+//mux2 output
+wire [31:0] ALU_parm2;
+
+//mux ex rd1 src
+wire [31:0] ALU_forward1;
+
+//mux ex rd2 src
+wire [31:0] ALU_forward2;
+
+//mux id rd1 src
+
+wire [31:0] ID_forward1;
+
+//mux id rd2 src
+
+wire [31:0] ID_forward2;
+
+//ALU output
+wire [31:0] ALUOut;
+wire  zero;
+
+//Data mem output
+wire [31:0] readData_Dmem;
+
+//mux3 wrData output
+wire [31:0] writeData_reg;
+
+//mux2 Adder2_src
+wire [31:0] Adder_param;
+
+//mux2 pc_control
+wire [31:0] pc_control;
+
+//mux2 pc_harzard
+wire [31:0] pc_next;
 
 
-wire [31:0] alu_result_EX_MEM;
-wire [31:0] pc_plus4_EX_MEM;
-wire [31:0] reg_read_data2_EX_MEM;
-wire [4:0] write_reg_EX_MEM;
-wire mem_write_EX_MEM;
-wire mem_read_EX_MEM;
-wire reg_write_EX_MEM;
-wire [1:0] mem_to_reg_EX_MEM;
+
+//control output
+wire memRead , memWrite, ALUSrc,regWrite , Flush_ctrl, PCorR1;
+wire [1:0] memtoReg, PCSel,ALUOp;
+
+//ALU control output
+wire [3:0] ALUCtrl;
+
+// IF_ID_Reg output
+wire [31:0]pc_ID;
+wire [31:0]pc_plus4_ID;
+wire [31:0]inst_ID;
+// ID_input
+wire func7_ID = inst_ID[30];
+wire [2:0]func3_ID = inst_ID[14:12];
+wire [4:0] writeReg =  inst_ID [11:7];
+wire [4:0] readReg1 = inst_ID[19:15];
+wire [4:0] readReg2 = inst_ID[24:20];
 
 
-// Program Counter
+// ID_EX_Reg
+wire [31:0] readData1_EX, readData2_EX, pc_4_EX, imm_EX;
+wire [4:0] writeReg_EX , readReg1_EX,  readReg2_EX ; 
+wire [2:0] func3_EX;
+wire [1:0] memtoReg_EX , ALUOp_EX ;
+wire regWrite_EX, memRead_EX, memWrite_EX,ALUSrc_EX,func7_EX ;
+
+//EX_MEM_Reg
+wire [31:0] ALUOut_MEM, readData2_MEM, pc_4_MEM;
+wire [4:0] writeReg_MEM;
+wire [1:0] memtoReg_MEM;
+wire regWrite_MEM, memRead_MEM, memWrite_MEM;
+
+//MEM_WB_Reg
+wire [31:0] ALUOut_WB, readData_Dmem_WB, pc_4_WB;
+wire [4:0] writeReg_WB;
+wire [1:0] memtoreg_WB;
+wire regWrite_WB;
+
+//Forwarding Unit
+wire id_ForwardA, id_ForwardB;
+wire [1:0] ex_ForwardA, ex_ForwardB;
+
+//HazardDetection
+wire RePC, Flush_HD;
+
 PC m_PC(
     .clk(clk),
     .rst(start),
     .pc_i(pc_next),
-    .pc_o(pc_current)
+    .pc_o(pc_o)
 );
 
-// PC + 4 Adder
+
 Adder m_Adder_1(
-    .a(pc_current),
-    .b(32'h4),
+    .a(pc_o),
+    .b(Four),
     .sum(pc_plus4)
 );
 
-// instruct Memory
+
 InstructionMemory m_InstMem(
-    .readAddr(pc_current),
-    .inst(instruct)
+    .readAddr(pc_o),
+    .inst(inst)
 );
 
-wire [31:0] pc_current_IF_ID;
-wire [31:0] pc_plus4_IF_ID;
-wire [31:0] instruct_IF_ID;
-// IF/ID Reg
-IF_ID_Reg m_IF_ID_Reg(
-    .clk(clk),
-    .rst(start),
-    .pc_i(pc_current),
-    .pc_4_i(pc_plus4),
-    .inst_i(instruct),
-    .Flush_HD(Flush_HD),
-    .flushCtrl(flushCtrl),
-
-    .pc_o(pc_current_IF_ID),
-    .pc_4_o(pc_plus4_IF_ID),
-    .inst_o(instruct_IF_ID)
-);
-wire RePC;
-wire Flush_HD;
-HazardDetection hazard_detection_unit(
-    .opcode(instruct_IF_ID[6:0]),
-    .memtoReg(mem_to_reg_EX_MEM),
-    .id_R1(readReg1),
-    .id_R2(readReg2),
-    .ex_Rd(writeReg_ID_EX),
-    .mem_Rd(write_reg_EX_MEM),
-    .ID_EX_MemRead(mem_read_ID_EX),
-    .mem_MemRead(mem_read_EX_MEM),
-    .RePC(RePC),
-    .Flush_HD(Flush_HD)
-);
+wire [6:0] opcode_ID = inst_ID[6:0];
 
 
-// Assign instruct fields
-wire [6:0]opcode = instruct_IF_ID[6:0];
-wire [2:0]funct3 = instruct_IF_ID[14:12];
-wire funct7 = instruct_IF_ID[30];
 
-wire flushCtrl;
-wire PCorR1;
-// Control Unit
 Control m_Control(
-    .opcode(opcode),
-    .funct3(funct3),
-    .BrEq(branch_eq),
-    .BrLT(branch_lt),
-
-    .memRead(mem_read),
-    .memtoReg(mem_to_reg), 
-    .ALUOp(alu_op),
-    .memWrite(mem_write),
-    .ALUSrc(alu_src),
-    .regWrite(reg_write),
-    .PCSel(pc_sel),
-    .flushCtrl(flushCtrl),
+    .opcode(opcode_ID),
+    .funct3(func3_ID),
+    .BrEq(BrEq),
+    .BrLT(BrLT),
+    .memRead(memRead),
+    .memtoReg(memtoReg),
+    .ALUOp(ALUOp),
+    .memWrite(memWrite),
+    .ALUSrc(ALUSrc),
+    .regWrite(regWrite),
+    .PCSel(PCSel),
+    .Flush_ctrl(Flush_ctrl),
     .PCorR1(PCorR1)
 );
 
-wire [4:0]readReg1 = instruct_IF_ID[19:15];
-wire [4:0]readReg2 = instruct_IF_ID[24:20];
-wire [4:0]writeReg = instruct_IF_ID[11:7];
-// Register File
+// For Student:
+// Do not change the Register instance name!
+// Or you will fail validation.
+
+
+
+
 Register m_Register(
     .clk(clk),
     .rst(start),
-    .regWrite(reg_write_MEM_WB),
+    .regWrite(regWrite_WB),
     .readReg1(readReg1),
     .readReg2(readReg2),
-    .writeReg(write_reg_MEM_WB),
-    .writeData(write_data),
-    .readData1(reg_read_data1),
-    .readData2(reg_read_data2)
+    .writeReg(writeReg_WB),
+    .writeData(writeData_reg),
+    .readData1(readData1),
+    .readData2(readData2)
 );
 
 // ======= for validation =======
 // == Dont change this section ==
 assign r = m_Register.regs;
-// ======= for validation =======
+// ======= for vaildation =======
 
-wire [31:0] reg_readData1_mux;
-wire [31:0] reg_readData2_mux;
-// The Muxs after Reg[]
-Mux2to1 #(.size(32)) mux_readData1(
-    .sel(id_ForwardA),
-    .s0(reg_read_data1),
-    .s1(alu_result_EX_MEM),
-    .out(reg_readData1_mux)
-);
-Mux2to1 #(.size(32)) mux_readData2(
-    .sel(id_ForwardB),
-    .s0(reg_read_data2),
-    .s1(alu_result_EX_MEM),
-    .out(reg_readData2_mux)
-);
-
-// Branch Comparator
 BranchComp m_BranchComp(
-    .A(reg_readData1_mux),
-    .B(reg_readData2_mux),
-    .BrEq(branch_eq),
-    .BrLT(branch_lt)
+    .A(ID_forward1),
+    .B(ID_forward2),
+    .BrEq(BrEq),
+    .BrLT(BrLT)
 );
 
-// Immediate Generator
 ImmGen m_ImmGen(
-    .inst(instruct_IF_ID), 
+    .inst(inst_ID),
     .imm(imm)
 );
 
-// Shift Left 1
-ShiftLeftOne m_ShiftLeftOne(
-    .i(imm),
-    .o(shift_one)
-);
 
-wire [31:0]pc_current_IF_ID_mux;
-Mux2to1 #(.size(32)) m_Mux_PC_Branch(
-    .sel(PCorR1),
-    .s0(pc_current_IF_ID),
-    .s1(reg_readData1_mux),
-    .out(pc_current_IF_ID_mux)
-);
+// ShiftLeftOne m_ShiftLeftOne(
+//     .i(imm),
+//     .o(sl_one)
+// );
 
-// Branch Target Adder
 Adder m_Adder_2(
-    .a(pc_current_IF_ID_mux),
-    .b(shift_one),
-    .sum(pc_branch)
+    .a(Adder_param),
+    .b(imm),
+    .sum(adder2_out)
 );
 
-// // PC Mux
 // Mux3to1 #(.size(32)) m_Mux_PC(
-//     .sel(pc_sel),
+//     .sel(PCSel),
 //     .s0(pc_plus4),
-//     .s1(pc_branch),
-//     .s2(alu_result), 
+//     .s1(adder2_out),
+//     .s2(ALUOut),
 //     .out(pc_next)
 // );
 
-// PC Mux
-wire [31:0] pc_S_out;
-Mux3to1 #(.size(32)) m_Mux_PC_Jump(
-    .sel(pc_sel),
-    .s0(pc_plus4),
-    .s1(pc_branch),
-    .s2(pc_branch),
-    .out(pc_S_out)
+
+Mux2to1 #(.size(32)) m_Mux_ALU(
+    .sel(ALUSrc_EX),
+    .s0(ALU_forward2),
+    .s1(imm_EX),
+    .out(ALU_parm2)
 );
-Mux2to1 #(.size(32)) m_Mux_PC(
+
+//data forwarding mux
+
+Mux3to1 #(.size(32)) m_Mux_ex_Rd1_src(
+    .sel(ex_ForwardA),
+    .s0(readData1_EX),
+    .s1(writeData_reg),
+    .s2(ALUOut_MEM),
+    .out(ALU_forward1)
+);
+
+Mux3to1 #(.size(32)) m_Mux_ex_Rd2_src(
+    .sel(ex_ForwardB),
+    .s0(readData2_EX),
+    .s1(writeData_reg),
+    .s2(ALUOut_MEM),
+    .out(ALU_forward2)
+);
+
+Mux2to1 #(.size(32)) m_Mux_id_R1_src(
+    .sel(id_ForwardA),
+    .s0(readData1),
+    .s1(ALUOut_MEM),
+    .out(ID_forward1)
+);
+
+Mux2to1 #(.size(32)) m_Mux_id_R2_src(
+    .sel(id_ForwardB),
+    .s0(readData2),
+    .s1(ALUOut_MEM),
+    .out(ID_forward2)
+);
+
+//for jump and branch
+Mux2to1 #(.size(32)) m_MUX_Adder2_src(
+    .sel(PCorR1),
+    .s0(pc_ID),
+    .s1(ID_forward1),
+    .out(Adder_param)
+);
+
+wire branching = |PCSel;
+Mux2to1 #(.size(32)) m_MUX_pc_control(
+    .sel(branching),
+    .s0(pc_plus4),
+    .s1(adder2_out),
+    .out(pc_control)
+);
+
+Mux2to1 #(.size(32)) m_MUX_PC_HazardDetection(
     .sel(RePC),
-    .s0(pc_S_out),
-    .s1(pc_current_IF_ID),
+    .s0(pc_control),
+    .s1(pc_ID),
     .out(pc_next)
 );
 
-wire reg_write_ID_EX;
-wire [1:0]mem_to_reg_ID_EX;
-wire mem_read_ID_EX;
-wire mem_write_ID_EX;
-wire alu_src_ID_EX;
-wire [1:0] alu_op_ID_EX;
-wire [31:0] pc_plus4_ID_EX;
-wire [31:0] reg_read_data1_ID_EX;
-wire [31:0] reg_read_data2_ID_EX;
-wire [31:0] imm_ID_EX;
-wire [4:0] writeReg_ID_EX;
-wire [2:0] funct3_ID_EX;
-wire funct7_ID_EX;
-wire [31:0] instruct_ID_EX;
 
-// wire [4:0]readReg1 = instruct_IF_ID[19:15];
-// wire [4:0]readReg2 = instruct_IF_ID[24:20];
-// ID/EX Reg
-ID_EX_Reg m_ID_EX_Reg(
-    .clk(clk),
-    .rst(start),
-    .reg_write_i(reg_write),
-    .mem_to_reg_i(mem_to_reg),
-    .mem_read_i(mem_read),
-    .mem_write_i(mem_write),
-    .alu_src_i(alu_src),
-    .alu_op_i(alu_op),
-    .pc_4_i(pc_plus4_IF_ID),
-    .read_data1_i(reg_readData1_mux),
-    .read_data2_i(reg_readData2_mux),
-    .imm_i(imm),
-    .write_reg_i(writeReg),
-    .funct3_i(funct3),
-    .funct7_i(funct7),
-    .Flush_HD(Flush_HD),
-    .instr_i(instruct_IF_ID),
-
-    .reg_write_o(reg_write_ID_EX),
-    .mem_to_reg_o(mem_to_reg_ID_EX),
-    .mem_read_o(mem_read_ID_EX),
-    .mem_write_o(mem_write_ID_EX),
-    .alu_src_o(alu_src_ID_EX),
-    .alu_op_o(alu_op_ID_EX),
-    .pc_4_o(pc_plus4_ID_EX),
-    .read_data1_o(reg_read_data1_ID_EX),
-    .read_data2_o(reg_read_data2_ID_EX),
-    .imm_o(imm_ID_EX),
-    .write_reg_o(writeReg_ID_EX),
-    .funct3_o(funct3_ID_EX),
-    .funct7_o(funct7_ID_EX),
-    .instr_o(instruct_ID_EX)
-);
-
-wire id_ForwardA;
-wire id_ForwardB;
-
-wire [1:0]ex_ForwardA;
-wire [1:0]ex_ForwardB;
-
-Forwarding_Unit m_Forwarding_Unit(
-    .id_R1(instruct_IF_ID[19:15]),
-    .id_R2(instruct_IF_ID[24:20]),
-    .ex_R1(instruct_ID_EX[19:15]),
-    .ex_R2(instruct_ID_EX[24:20]),
-    .mem_Rd(write_reg_EX_MEM),
-    .wb_Rd(write_reg_MEM_WB),
-    .mem_RegWrite(reg_write_EX_MEM),
-    .wb_RegWrite(reg_write_MEM_WB),
-    .id_ForwardA(id_ForwardA),
-    .id_ForwardB(id_ForwardB),
-    .ex_ForwardA(ex_ForwardA),
-    .ex_ForwardB(ex_ForwardB)
-);
-
-// 3to1 of reg_read_data1 , after ID/EX Reg
-wire [31:0] reg_read_data1_ID_EX_mux;
-Mux3to1 #(.size(32)) m_Mux_reg_read_data1(
-    .sel(ex_ForwardA),
-    .s0(reg_read_data1_ID_EX),
-    .s1(write_data),
-    .s2(alu_result_EX_MEM),
-    .out(reg_read_data1_ID_EX_mux)
-);
-
-wire [31:0]reg_read_data2_ID_EX_mux;
-// 3to1 of alu_src_b
-Mux3to1 #(.size(32)) m_Mux_reg_read_data2(
-    .sel(ex_ForwardB),
-    .s0(reg_read_data2_ID_EX),
-    .s1(write_data),
-    .s2(alu_result_EX_MEM),
-    .out(reg_read_data2_ID_EX_mux)
-);
-
-// ALU Source Mux
-Mux2to1 #(.size(32)) m_Mux_ALU(
-    .sel(alu_src_ID_EX),
-    .s0(reg_read_data2_ID_EX_mux),
-    .s1(imm_ID_EX),
-    .out(alu_src_b)
-);
-
-// ALU
-ALU m_ALU(
-    .ALUctl(alu_control),
-    .A(reg_read_data1_ID_EX_mux),
-    .B(alu_src_b),
-    .ALUOut(alu_result),
-    .zero(jump)
-);
-
-// ALU Control
+//???
 ALUCtrl m_ALUCtrl(
-    .ALUOp(alu_op_ID_EX),
-    .funct7(funct7_ID_EX),
-    .funct3(funct3_ID_EX),
-    .ALUCtl(alu_control)
+    .ALUOp(ALUOp_EX),
+    .funct7(func7_EX),
+    .funct3(func3_EX),
+    .ALUCtl(ALUCtrl)
+);
+//??
+ALU m_ALU(
+    .ALUctl(ALUCtrl),
+    .A(ALU_forward1),
+    .B(ALU_parm2),
+    .ALUOut(ALUOut),
+    .zero(zero)
 );
 
 
-
-// EX/MEM Reg
-EX_MEM_Reg m_EX_MEM_Reg(
-    .clk(clk),
-    .rst(start),
-    .alu_result_i(alu_result),
-    .pc_4_i(pc_plus4_ID_EX),
-    .readData2_i(reg_read_data2_ID_EX_mux),
-    .write_reg_i(writeReg_ID_EX),
-    .mem_write_i(mem_write_ID_EX),
-    .mem_read_i(mem_read_ID_EX),
-    .mem_to_reg_i(mem_to_reg_ID_EX),
-    .regWrite_i(reg_write_ID_EX),
-
-    .alu_result_o(alu_result_EX_MEM),
-    .pc_4_o(pc_plus4_EX_MEM),
-    .readData2_o(reg_read_data2_EX_MEM),
-    .write_reg_o(write_reg_EX_MEM), 
-    .mem_write_o(mem_write_EX_MEM),
-    .mem_read_o(mem_read_EX_MEM),
-    .mem_to_reg_o(mem_to_reg_EX_MEM),
-    .regWrite_o(reg_write_EX_MEM)
-);
-
-// Data Memory
 DataMemory m_DataMemory(
     .rst(start),
     .clk(clk),
-    .memWrite(mem_write_EX_MEM),
-    .memRead(mem_read_EX_MEM),
-    .address(alu_result_EX_MEM),
-    .writeData(reg_read_data2_EX_MEM),
-
-    .readData(mem_read_data)
+    .memWrite(memWrite_MEM),
+    .memRead(memRead_MEM),
+    .address(ALUOut_MEM),
+    .writeData(readData2_MEM),
+    .readData(readData_Dmem)
 );
 
-wire [31:0] alu_result_MEM_WB;
-wire [31:0] mem_read_data_MEM_WB;
-wire [4:0] write_reg_MEM_WB;
-wire reg_write_MEM_WB;
-wire [1:0] mem_to_reg_MEM_WB;
-wire [31:0] pc_plus4_MEM_WB;
-// MEM/WB Reg
-MEM_WB_Reg m_MEM_WB_Reg(
+
+Mux3to1 #(.size(32)) m_Mux_WriteData(
+    .sel(memtoreg_WB),
+    .s0(ALUOut_WB),
+    .s1(readData_Dmem_WB),
+    .s2(pc_4_WB),
+    .out(writeData_reg)
+);
+
+//pipeline add
+//miss writeReg pos
+
+
+IF_ID_Reg m_IF_ID_Reg(
     .clk(clk),
     .rst(start),
-    .alu_result_i(alu_result_EX_MEM),
-    .dmem_read_data_i(mem_read_data),
-    .write_reg_i(write_reg_EX_MEM),
-    .mem_to_reg_i(mem_to_reg_EX_MEM),
-    .reg_write_i(reg_write_EX_MEM),
-    .pc_4_i(pc_plus4_EX_MEM),
-
-    .alu_result_o(alu_result_MEM_WB),
-    .dmem_read_data_o(mem_read_data_MEM_WB),
-    .write_reg_o(write_reg_MEM_WB),
-    .mem_to_reg_o(mem_to_reg_MEM_WB),
-    .reg_write_o(reg_write_MEM_WB),
-    .pc_4_o(pc_plus4_MEM_WB)
+    .pc_i(pc_o),
+    .pc_4_i(pc_plus4),
+    .inst_i(inst),
+    .Flush_ctrl(Flush_ctrl),
+    .Flush_HD(Flush_HD),
+    .stall(0),
+    .pc_o(pc_ID),
+    .pc_4_o(pc_plus4_ID),
+    .inst_o(inst_ID)
 );
 
-// Write Data Mux
-Mux3to1 #(.size(32)) m_Mux_WriteData(
-    .sel(mem_to_reg_MEM_WB),
-    .s0(alu_result_MEM_WB),
-    .s1(mem_read_data_MEM_WB),
-    .s2(pc_plus4_MEM_WB), 
-    .out(write_data)
+
+
+
+ID_EX_Reg m_ID_EX_Reg(
+    .clk(clk),
+    .rst(start),
+    .readData1_i(ID_forward1),
+    .readData2_i(ID_forward2),
+    .pc_4_i(pc_plus4_ID),
+    .imm_i(imm),
+    .regWrite_i(regWrite),
+    .memRead_i(memRead),
+    .memWrite_i(memWrite),
+    .ALUSrc_i(ALUSrc),
+    .memtoreg_i(memtoReg),
+    .ALUOp_i(ALUOp),
+    .func3_i(func3_ID),
+    .func7_i(func7_ID),
+    .writeReg_i(writeReg),
+    .readReg1_i(readReg1),
+    .readReg2_i(readReg2),
+    .Flush_HD(Flush_HD),
+    .stall(0),
+    .readData1_o(readData1_EX),
+    .readData2_o(readData2_EX),
+    .pc_4_o(pc_4_EX),
+    .imm_o(imm_EX),
+    .regWrite_o(regWrite_EX),
+    .memRead_o(memRead_EX),
+    .memWrite_o(memWrite_EX),
+    .ALUSrc_o(ALUSrc_EX),
+    .memtoreg_o(memtoReg_EX),
+    .ALUOp_o(ALUOp_EX),
+    .func3_o(func3_EX),
+    .func7_o(func7_EX),
+    .writeReg_o(writeReg_EX),
+    .readReg1_o(readReg1_EX),
+    .readReg2_o(readReg2_EX)
 );
+
+
+
+EX_MEM_Reg m_EX_MEM_Reg(
+    .rst(start),
+    .clk(clk),
+    .ALUresult_i(ALUOut),
+    .readData2_i(readData2_EX),
+    .memtoreg_i(memtoReg_EX),
+    .regWrite_i(regWrite_EX),
+    .memRead_i(memRead_EX),
+    .memWrite_i(memWrite_EX),
+    .writeReg_i(writeReg_EX),
+    .pc_4_i(pc_4_EX),
+    .ALUresult_o(ALUOut_MEM),
+    .readData2_o(readData2_MEM),
+    .memtoreg_o(memtoReg_MEM),
+    .regWrite_o(regWrite_MEM),
+    .memRead_o(memRead_MEM),
+    .memWrite_o(memWrite_MEM),
+    .writeReg_o(writeReg_MEM),
+    .pc_4_o(pc_4_MEM)
+);
+
+
+
+MEM_WB_Reg m_mem_wb_Reg(
+    .clk(clk),
+    .rst(start),
+    .ALUresult_i(ALUOut_MEM),
+    .readData_i(readData_Dmem),
+    .memtoreg_i(memtoReg_MEM),
+    .pc_4_i(pc_4_MEM),
+    .regWrite_i(regWrite_MEM),
+    .writeReg_i(writeReg_MEM),
+    .ALUresult_o(ALUOut_WB),
+    .readData_o(readData_Dmem_WB),
+    .memtoreg_o(memtoreg_WB),
+    .pc_4_o(pc_4_WB),
+    .regWrite_o(regWrite_WB),
+    .writeReg_o(writeReg_WB)
+);
+
+
+
+//solving situation: not lw and not follow by branch data hazard
+Forwarding_Unit m_forwarding_unit(
+    .id_R1(readReg1),    // Source register 1 in ID stage
+    .id_R2(readReg2),    // Source register 2 in ID stage
+    .ex_R1(readReg1_EX),    // Source register 1 in EX stage
+    .ex_R2(readReg2_EX),    // Source register 2 in EX stage
+    .mem_Rd(writeReg_MEM),    // Destination register in MEM stage
+    .wb_Rd(writeReg_WB),    // Destination register in WB stage
+    .mem_RegWrite(regWrite_MEM),    // Register write signal in MEM stage
+    .wb_RegWrite(regWrite_WB),    // Register write signal in WB stage
+    .id_ForwardA(id_ForwardA),     // Forward control for source 1 in ID stage
+    .id_ForwardB(id_ForwardB),      // Forward control for source 2 in ID stage
+    .ex_ForwardA(ex_ForwardA),     // Forward control for source 1 in EX stage
+    .ex_ForwardB(ex_ForwardB)      // Forward control for source 2 in EX stage
+);
+
+//solving situation: lw or branch
+
+HazardDetection m_hazard_detection(
+    .id_opcode(opcode_ID),
+    .mem_memtoReg(memtoReg_MEM),
+    .id_R1(readReg1),      // Source register 1 in ID stage
+    .id_R2(readReg2),      // Source register 2 in ID stage
+    .ex_Rd(writeReg_EX),       // Destination register in EX stage
+    .mem_Rd(writeReg_MEM),       // Destination register in MEM stage
+    .ex_MemRead(memRead_EX),
+    .mem_MemRead(memRead_MEM),       // lw
+    .RePC(RePC),             // re-fetch the flushed instruction
+    .Flush_HD(Flush_HD)    // flush IF/ID reg & ID/EX reg
+
+
+);
+
+
 
 endmodule
