@@ -272,8 +272,8 @@ wire [1:0]ex_ForwardB;
 Forwarding_Unit m_Forwarding_Unit(
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
-    .ex_R1(writeReg_ID_EX),
-    .ex_R2(writeReg_ID_EX),
+    .ex_R1(reg_readData1_mux),
+    .ex_R2(reg_readData2_mux),
     .mem_Rd(write_reg_EX_MEM),
     .wb_Rd(write_reg_MEM_WB),
     .mem_RegWrite(reg_write_EX_MEM),
