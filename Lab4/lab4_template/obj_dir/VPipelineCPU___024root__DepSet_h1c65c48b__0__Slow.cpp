@@ -402,22 +402,43 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
     if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
           & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
          & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
-            == (IData)(vlSelf->PipelineCPU__DOT__writeReg_ID_EX)))) {
+            == (0x1fU & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                         >> 0xfU))))) {
         vlSelf->PipelineCPU__DOT__ex_ForwardA = 2U;
-        vlSelf->PipelineCPU__DOT__ex_ForwardB = 0U;
-        vlSelf->PipelineCPU__DOT__ex_ForwardB = 2U;
-    } else {
-        vlSelf->PipelineCPU__DOT__ex_ForwardB = 0U;
     }
     if (((((IData)(vlSelf->PipelineCPU__DOT__reg_write_MEM_WB) 
            & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB))) 
           & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB) 
-             == (IData)(vlSelf->PipelineCPU__DOT__writeReg_ID_EX))) 
-         & (~ (((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
-                & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
-               & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
-                  == (IData)(vlSelf->PipelineCPU__DOT__writeReg_ID_EX)))))) {
+             == (0x1fU & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                          >> 0xfU)))) & (~ (((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
+                                             & (0U 
+                                                != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
+                                            & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
+                                               == (0x1fU 
+                                                   & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                                                      >> 0xfU))))))) {
         vlSelf->PipelineCPU__DOT__ex_ForwardA = 1U;
+    }
+    vlSelf->PipelineCPU__DOT__ex_ForwardB = 0U;
+    if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
+          & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
+         & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
+            == (0x1fU & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                         >> 0x14U))))) {
+        vlSelf->PipelineCPU__DOT__ex_ForwardB = 2U;
+    }
+    if (((((IData)(vlSelf->PipelineCPU__DOT__reg_write_MEM_WB) 
+           & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB))) 
+          & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB) 
+             == (0x1fU & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                          >> 0x14U)))) & (~ (((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
+                                              & (0U 
+                                                 != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
+                                             & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
+                                                == 
+                                                (0x1fU 
+                                                 & (vlSelf->PipelineCPU__DOT__instruct_ID_EX 
+                                                    >> 0x14U))))))) {
         vlSelf->PipelineCPU__DOT__ex_ForwardB = 1U;
     }
     vlSelf->PipelineCPU__DOT__write_data = ((0U == (IData)(vlSelf->PipelineCPU__DOT__mem_to_reg_MEM_WB))
@@ -735,6 +756,7 @@ VL_ATTR_COLD void VPipelineCPU___024root___ctor_var_reset(VPipelineCPU___024root
     vlSelf->PipelineCPU__DOT__writeReg_ID_EX = VL_RAND_RESET_I(5);
     vlSelf->PipelineCPU__DOT__funct3_ID_EX = VL_RAND_RESET_I(3);
     vlSelf->PipelineCPU__DOT__funct7_ID_EX = VL_RAND_RESET_I(1);
+    vlSelf->PipelineCPU__DOT__instruct_ID_EX = VL_RAND_RESET_I(32);
     vlSelf->PipelineCPU__DOT__id_ForwardA = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__id_ForwardB = VL_RAND_RESET_I(1);
     vlSelf->PipelineCPU__DOT__ex_ForwardA = VL_RAND_RESET_I(2);

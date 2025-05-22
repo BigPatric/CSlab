@@ -77,10 +77,11 @@ class VPipelineCPU___024root final : public VerilatedModule {
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data1_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__imm_ID_EX;
+        IData/*31:0*/ PipelineCPU__DOT__instruct_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data1_ID_EX_mux;
-        IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_ID_EX_mux;
     };
     struct {
+        IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_ID_EX_mux;
         IData/*31:0*/ PipelineCPU__DOT__alu_result_MEM_WB;
         IData/*31:0*/ PipelineCPU__DOT__mem_read_data_MEM_WB;
         IData/*31:0*/ PipelineCPU__DOT__pc_plus4_MEM_WB;
