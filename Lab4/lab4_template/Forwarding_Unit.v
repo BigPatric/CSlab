@@ -28,28 +28,40 @@ module Forwarding_Unit (
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
 
-    always @(*) begin
-        id_ForwardA = 0;
-        id_ForwardB = 0;
-        ex_ForwardA = 2'b00;
-        ex_ForwardB = 2'b00;
-
-        // EX hazard: from MEM stage
-        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == ex_R1))
-            ex_ForwardA = 2'b10;
-        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == ex_R2))
-            ex_ForwardB = 2'b10;
-
-        // EX hazard: from WB stage
-        if (wb_RegWrite && (wb_Rd != 0) && (wb_Rd == ex_R1) && !(mem_RegWrite && (mem_Rd != 0) && (mem_Rd == ex_R1)))
-            ex_ForwardA = 2'b01;
-        if (wb_RegWrite && (wb_Rd != 0) && (wb_Rd == ex_R2) && !(mem_RegWrite && (mem_Rd != 0) && (mem_Rd == ex_R2)))
-            ex_ForwardB = 2'b01;
-
-         // ID hazard: from MEM stage (for branch in ID)
-        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == id_R1))
-            id_ForwardA = 1'b1;
-        if (mem_RegWrite && (mem_Rd != 0) && (mem_Rd == id_R2))
-            id_ForwardB = 1'b1;  
+    always@(*) begin
+    if((id_R1 == mem_Rd && mem_RegWrite) && (id_R1 != 0)) begin
+        id_ForwardA = 1'b1;
+    end else begin
+        id_ForwardA = 1'b0;
     end
+end
+
+
+always@(*) begin
+    if((id_R2 == mem_Rd && mem_RegWrite) && (id_R2 != 0)) begin
+        id_ForwardB = 1'b1;
+    end else begin
+        id_ForwardB = 1'b0;
+    end
+end
+
+always@(*) begin
+    if((ex_R1 == mem_Rd && mem_RegWrite) && (ex_R1 != 0)) begin
+        ex_ForwardA = 2'b10;
+    end else if((ex_R1 == wb_Rd && wb_RegWrite) && (ex_R1 != 0)) begin
+        ex_ForwardA = 2'b01;
+    end else begin
+        ex_ForwardA = 2'b00;
+    end
+end
+
+always@(*) begin
+    if((ex_R2 == mem_Rd && mem_RegWrite) && (ex_R2 != 0)) begin
+        ex_ForwardB = 2'b10;
+    end else if((ex_R2 == wb_Rd && wb_RegWrite) && (ex_R2 != 0)) begin
+        ex_ForwardB = 2'b01;
+    end else begin
+        ex_ForwardB = 2'b00;
+    end
+end
 endmodule
