@@ -28,23 +28,23 @@ module HazardDetection(
     always @(*) begin
         RePC = 1'b0;
         Flush_HD = 1'b0;
-    if((ex_Rd == id_R1 || ex_Rd == id_R2 ) && opcode == 7'b1100011 && ex_Rd != 0) begin // branch
-        RePC = 1'b1;
-        Flush_HD = 1'b1;
-    end else if( ID_EX_MemRead == 1 && (ex_Rd == id_R1 || ex_Rd == id_R2 ) && ex_Rd != 0) begin
-        RePC = 1'b1;
-        Flush_HD = 1'b1;
-    end else if( mem_MemRead == 1 && opcode == 7'b1100011 && mem_Rd != 0) begin
-        RePC = 1'b1;
-        Flush_HD = 1'b1;
-    end else if( memtoReg == 2'b10 && opcode ==7'b1100111 && (mem_Rd == id_R1) && mem_Rd != 0)begin
-        RePC = 1'b1;
-        Flush_HD = 1'b1;
-    end else begin
-        RePC = 0;
-        Flush_HD = 0;
+        if((ex_Rd == id_R1 || ex_Rd == id_R2 ) && opcode == 7'b1100011 && ex_Rd != 0) begin // branch
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else if( ID_EX_MemRead == 1 && (ex_Rd == id_R1 || ex_Rd == id_R2 ) && ex_Rd != 0) begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else if( mem_MemRead == 1 && opcode == 7'b1100011 && mem_Rd != 0) begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else if( memtoReg == 2'b10 && opcode ==7'b1100111 && (mem_Rd == id_R1) && mem_Rd != 0)begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else begin
+            RePC = 0;
+            Flush_HD = 0;
+        end
     end
-end
 
 
 endmodule
