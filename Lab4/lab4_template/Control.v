@@ -18,7 +18,7 @@ module Control (
     reg [9:0] b1 = 10'b01_0_00_00_0_0_0;
     reg [9:0] b2 = 10'b00_0_00_00_0_0_0;
     assign flushCtrl = (PCSel == 0)?0:1; 
-    assign PCorR1 = (PCSel == 2'b01)?0:1;
+    assign PCorR1 = (PCSel == 1)?0:1;
     always@(*) begin
         PCSel = 2'b00;
         case(opcode)
