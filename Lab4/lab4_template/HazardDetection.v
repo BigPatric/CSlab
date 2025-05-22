@@ -26,6 +26,8 @@ module HazardDetection(
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
     always @(*) begin
+        RePC = 1'b0;
+        Flush_HD = 1'b0;
     if((ex_Rd == id_R1 || ex_Rd == id_R2 ) && opcode == 7'b1100011 && ex_Rd != 0) begin // branch
         RePC = 1'b1;
         Flush_HD = 1'b1;
