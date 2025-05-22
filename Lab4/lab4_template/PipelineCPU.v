@@ -229,6 +229,10 @@ wire [31:0] imm_ID_EX;
 wire [4:0] writeReg_ID_EX;
 wire [2:0] funct3_ID_EX;
 wire funct7_ID_EX;
+wire [31:0] instruct_ID_EX;
+
+// wire [4:0]readReg1 = instruct_IF_ID[19:15];
+// wire [4:0]readReg2 = instruct_IF_ID[24:20];
 // ID/EX Reg
 ID_EX_Reg m_ID_EX_Reg(
     .clk(clk),
@@ -247,6 +251,7 @@ ID_EX_Reg m_ID_EX_Reg(
     .funct3_i(funct3),
     .funct7_i(funct7),
     .Flush_HD(Flush_HD),
+    .instr_i(instruct_IF_ID),
 
     .reg_write_o(reg_write_ID_EX),
     .mem_to_reg_o(mem_to_reg_ID_EX),
@@ -260,7 +265,8 @@ ID_EX_Reg m_ID_EX_Reg(
     .imm_o(imm_ID_EX),
     .write_reg_o(writeReg_ID_EX),
     .funct3_o(funct3_ID_EX),
-    .funct7_o(funct7_ID_EX)
+    .funct7_o(funct7_ID_EX),
+    .instr_o(instruct_ID_EX)
 );
 
 wire id_ForwardA;
@@ -272,8 +278,8 @@ wire [1:0]ex_ForwardB;
 Forwarding_Unit m_Forwarding_Unit(
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
-    .ex_R1(reg_readData1_mux),
-    .ex_R2(reg_readData2_mux),
+    .ex_R1(instruct_ID_EX[19:15]),
+    .ex_R2(instruct_ID_EX[24:20]),
     .mem_Rd(write_reg_EX_MEM),
     .wb_Rd(write_reg_MEM_WB),
     .mem_RegWrite(reg_write_EX_MEM),
