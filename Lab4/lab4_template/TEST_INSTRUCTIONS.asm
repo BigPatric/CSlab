@@ -1,13 +1,14 @@
-addi sp, sp , -8
-nop
-nop
-nop
-addi s1, zero, 5
-nop
-nop
-nop
-sw s1, 4(sp)
-nop
-nop
-nop
-lw s2, 4(sp)
+addi s0, zero, 163
+addi sp, sp, -4
+sw s0, 0(sp)
+add s0, zero, zero
+addi t0, zero, 0
+LOOP:
+   slti t1, t0, 7
+   beq t1, zero, EXIT
+   addi t0, t0, 1
+   beq zero, zero, LOOP
+EXIT:
+    ori t1, t1, 10
+    lw s0, 0(sp)
+    addi sp, sp, 4

@@ -61,21 +61,21 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_sequent__TOP__0(VPipelineCPU___0
         vlSelf->PipelineCPU__DOT__pc_plus4_EX_MEM = vlSelf->PipelineCPU__DOT__pc_plus4_ID_EX;
         if (vlSelf->PipelineCPU__DOT__Flush_HD) {
             vlSelf->PipelineCPU__DOT__imm_ID_EX = 0U;
-            vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX = 0U;
             vlSelf->PipelineCPU__DOT__alu_op_ID_EX = 0U;
             vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX = 0U;
+            vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX = 0U;
             vlSelf->PipelineCPU__DOT__funct3_ID_EX = 0U;
             vlSelf->PipelineCPU__DOT__mem_to_reg_ID_EX = 0U;
             vlSelf->PipelineCPU__DOT__pc_plus4_ID_EX = 0U;
         } else {
             vlSelf->PipelineCPU__DOT__imm_ID_EX = vlSelf->PipelineCPU__DOT__imm;
-            vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX 
-                = vlSelf->PipelineCPU__DOT__reg_readData1_mux;
             vlSelf->PipelineCPU__DOT__alu_op_ID_EX 
                 = (3U & ((IData)(vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl) 
                          >> 3U));
             vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX 
                 = vlSelf->PipelineCPU__DOT__reg_readData2_mux;
+            vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX 
+                = vlSelf->PipelineCPU__DOT__reg_readData1_mux;
             vlSelf->PipelineCPU__DOT__funct3_ID_EX 
                 = (7U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                          >> 0xcU));
@@ -108,9 +108,9 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_sequent__TOP__0(VPipelineCPU___0
     } else {
         vlSelf->__Vdlyvset__PipelineCPU__DOT__m_DataMemory__DOT__data_memory__v4 = 1U;
         vlSelf->PipelineCPU__DOT__imm_ID_EX = 0U;
-        vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX = 0U;
         vlSelf->PipelineCPU__DOT__alu_op_ID_EX = 0U;
         vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX = 0U;
+        vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX = 0U;
         vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t = 0U;
         vlSelf->PipelineCPU__DOT__mem_to_reg_MEM_WB = 0U;
         vlSelf->PipelineCPU__DOT__alu_result_MEM_WB = 0U;
@@ -687,14 +687,6 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_sequent__TOP__3(VPipelineCPU___0
                                                             >> 0x14U))
                                                          : 0U)
                                                         : 0U))))));
-    vlSelf->PipelineCPU__DOT__id_ForwardA = 0U;
-    if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
-          & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
-         & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
-            == (0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                         >> 0xfU))))) {
-        vlSelf->PipelineCPU__DOT__id_ForwardA = 1U;
-    }
     vlSelf->PipelineCPU__DOT__id_ForwardB = 0U;
     if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
           & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
@@ -702,6 +694,14 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_sequent__TOP__3(VPipelineCPU___0
             == (0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                          >> 0x14U))))) {
         vlSelf->PipelineCPU__DOT__id_ForwardB = 1U;
+    }
+    vlSelf->PipelineCPU__DOT__id_ForwardA = 0U;
+    if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
+          & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
+         & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
+            == (0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+                         >> 0xfU))))) {
+        vlSelf->PipelineCPU__DOT__id_ForwardA = 1U;
     }
     vlSelf->PipelineCPU__DOT__alu_result = ((8U & (IData)(vlSelf->PipelineCPU__DOT__alu_control))
                                              ? 0U : 
@@ -749,9 +749,6 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_sequent__TOP__3(VPipelineCPU___0
                                                    : 
                                                   (vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX_mux 
                                                    + vlSelf->PipelineCPU__DOT__alu_src_b)))));
-    vlSelf->PipelineCPU__DOT__pc_branch = (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t 
-                                           + (vlSelf->PipelineCPU__DOT__imm 
-                                              << 1U));
 }
 
 extern const VlUnpacked<CData/*1:0*/, 4096> VPipelineCPU__ConstPool__TABLE_h51125338_0;
@@ -767,14 +764,6 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_comb__TOP__0(VPipelineCPU___024r
     SData/*11:0*/ __Vtableidx1;
     __Vtableidx1 = 0;
     // Body
-    vlSelf->PipelineCPU__DOT__reg_readData1_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardA)
-                                                    ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
-                                                    : 
-                                                   vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
-                                                   [
-                                                   (0x1fU 
-                                                    & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                                                       >> 0xfU))]);
     vlSelf->PipelineCPU__DOT__reg_readData2_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardB)
                                                     ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
                                                     : 
@@ -783,6 +772,14 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_comb__TOP__0(VPipelineCPU___024r
                                                    (0x1fU 
                                                     & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                                        >> 0x14U))]);
+    vlSelf->PipelineCPU__DOT__reg_readData1_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardA)
+                                                    ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
+                                                    : 
+                                                   vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
+                                                   [
+                                                   (0x1fU 
+                                                    & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+                                                       >> 0xfU))]);
     __Vtableidx1 = ((((vlSelf->PipelineCPU__DOT__reg_readData1_mux 
                        == vlSelf->PipelineCPU__DOT__reg_readData2_mux)
                        ? 1U : 0U) << 0xbU) | (((VL_LTS_III(32, vlSelf->PipelineCPU__DOT__reg_readData1_mux, vlSelf->PipelineCPU__DOT__reg_readData2_mux)
@@ -803,6 +800,11 @@ VL_INLINE_OPT void VPipelineCPU___024root___nba_comb__TOP__0(VPipelineCPU___024r
     vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl 
         = VPipelineCPU__ConstPool__TABLE_h5873a144_0
         [__Vtableidx1];
+    vlSelf->PipelineCPU__DOT__pc_branch = (((IData)(vlSelf->PipelineCPU__DOT__PCorR1)
+                                             ? vlSelf->PipelineCPU__DOT__reg_readData1_mux
+                                             : vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t) 
+                                           + (vlSelf->PipelineCPU__DOT__imm 
+                                              << 1U));
     vlSelf->PipelineCPU__DOT__pc_next = ((IData)(vlSelf->PipelineCPU__DOT__RePC)
                                           ? vlSelf->PipelineCPU__DOT__pc_current
                                           : ((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))

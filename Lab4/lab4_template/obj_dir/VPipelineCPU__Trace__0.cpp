@@ -83,8 +83,7 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[3U])) {
         bufp->chgIData(oldp+53,(vlSelf->PipelineCPU__DOT__pc_current),32);
         bufp->chgIData(oldp+54,(((IData)(4U) + vlSelf->PipelineCPU__DOT__pc_current)),32);
-        bufp->chgIData(oldp+55,(vlSelf->PipelineCPU__DOT__pc_branch),32);
-        bufp->chgIData(oldp+56,(((0x80U <= vlSelf->PipelineCPU__DOT__pc_current)
+        bufp->chgIData(oldp+55,(((0x80U <= vlSelf->PipelineCPU__DOT__pc_current)
                                   ? 0U : ((vlSelf->PipelineCPU__DOT__m_InstMem__DOT__insts
                                            [(0x7fU 
                                              & vlSelf->PipelineCPU__DOT__pc_current)] 
@@ -103,44 +102,45 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
                                                 [(0x7fU 
                                                   & ((IData)(3U) 
                                                      + vlSelf->PipelineCPU__DOT__pc_current))]))))),32);
-        bufp->chgIData(oldp+57,(vlSelf->PipelineCPU__DOT__imm),32);
-        bufp->chgIData(oldp+58,(vlSelf->PipelineCPU__DOT__alu_result),32);
-        bufp->chgIData(oldp+59,(vlSelf->PipelineCPU__DOT__write_data),32);
-        bufp->chgIData(oldp+60,(vlSelf->PipelineCPU__DOT__alu_src_b),32);
-        bufp->chgBit(oldp+61,((0U == vlSelf->PipelineCPU__DOT__alu_result)));
-        bufp->chgIData(oldp+62,((vlSelf->PipelineCPU__DOT__imm 
+        bufp->chgIData(oldp+56,(vlSelf->PipelineCPU__DOT__imm),32);
+        bufp->chgIData(oldp+57,(vlSelf->PipelineCPU__DOT__alu_result),32);
+        bufp->chgIData(oldp+58,(vlSelf->PipelineCPU__DOT__write_data),32);
+        bufp->chgIData(oldp+59,(vlSelf->PipelineCPU__DOT__alu_src_b),32);
+        bufp->chgBit(oldp+60,((0U == vlSelf->PipelineCPU__DOT__alu_result)));
+        bufp->chgIData(oldp+61,((vlSelf->PipelineCPU__DOT__imm 
                                  << 1U)),32);
-        bufp->chgIData(oldp+63,(vlSelf->PipelineCPU__DOT__alu_result_EX_MEM),32);
-        bufp->chgCData(oldp+64,(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM),5);
-        bufp->chgBit(oldp+65,(vlSelf->PipelineCPU__DOT__mem_read_EX_MEM));
-        bufp->chgBit(oldp+66,(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM));
-        bufp->chgIData(oldp+67,(vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t),32);
-        bufp->chgBit(oldp+68,(vlSelf->PipelineCPU__DOT__RePC));
-        bufp->chgBit(oldp+69,(vlSelf->PipelineCPU__DOT__Flush_HD));
-        bufp->chgCData(oldp+70,((0x7fU & vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t)),7);
-        bufp->chgCData(oldp+71,((7U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+        bufp->chgIData(oldp+62,(vlSelf->PipelineCPU__DOT__alu_result_EX_MEM),32);
+        bufp->chgCData(oldp+63,(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM),5);
+        bufp->chgBit(oldp+64,(vlSelf->PipelineCPU__DOT__mem_read_EX_MEM));
+        bufp->chgBit(oldp+65,(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM));
+        bufp->chgIData(oldp+66,(vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t),32);
+        bufp->chgBit(oldp+67,(vlSelf->PipelineCPU__DOT__RePC));
+        bufp->chgBit(oldp+68,(vlSelf->PipelineCPU__DOT__Flush_HD));
+        bufp->chgCData(oldp+69,((0x7fU & vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t)),7);
+        bufp->chgCData(oldp+70,((7U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                        >> 0xcU))),3);
-        bufp->chgBit(oldp+72,((1U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+        bufp->chgBit(oldp+71,((1U & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                      >> 0x1eU))));
-        bufp->chgCData(oldp+73,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+        bufp->chgCData(oldp+72,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                           >> 0xfU))),5);
-        bufp->chgCData(oldp+74,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+        bufp->chgCData(oldp+73,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                           >> 0x14U))),5);
-        bufp->chgCData(oldp+75,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+        bufp->chgCData(oldp+74,((0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                           >> 7U))),5);
-        bufp->chgBit(oldp+76,(vlSelf->PipelineCPU__DOT__reg_write_ID_EX));
-        bufp->chgBit(oldp+77,(vlSelf->PipelineCPU__DOT__mem_read_ID_EX));
-        bufp->chgCData(oldp+78,(vlSelf->PipelineCPU__DOT__writeReg_ID_EX),5);
-        bufp->chgBit(oldp+79,(vlSelf->PipelineCPU__DOT__id_ForwardA));
-        bufp->chgBit(oldp+80,(vlSelf->PipelineCPU__DOT__id_ForwardB));
-        bufp->chgCData(oldp+81,(vlSelf->PipelineCPU__DOT__ex_ForwardA),2);
-        bufp->chgCData(oldp+82,(vlSelf->PipelineCPU__DOT__ex_ForwardB),2);
-        bufp->chgIData(oldp+83,(vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX_mux),32);
-        bufp->chgIData(oldp+84,(vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX_mux),32);
-        bufp->chgCData(oldp+85,(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB),5);
-        bufp->chgBit(oldp+86,(vlSelf->PipelineCPU__DOT__reg_write_MEM_WB));
+        bufp->chgBit(oldp+75,(vlSelf->PipelineCPU__DOT__reg_write_ID_EX));
+        bufp->chgBit(oldp+76,(vlSelf->PipelineCPU__DOT__mem_read_ID_EX));
+        bufp->chgCData(oldp+77,(vlSelf->PipelineCPU__DOT__writeReg_ID_EX),5);
+        bufp->chgBit(oldp+78,(vlSelf->PipelineCPU__DOT__id_ForwardA));
+        bufp->chgBit(oldp+79,(vlSelf->PipelineCPU__DOT__id_ForwardB));
+        bufp->chgCData(oldp+80,(vlSelf->PipelineCPU__DOT__ex_ForwardA),2);
+        bufp->chgCData(oldp+81,(vlSelf->PipelineCPU__DOT__ex_ForwardB),2);
+        bufp->chgIData(oldp+82,(vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX_mux),32);
+        bufp->chgIData(oldp+83,(vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX_mux),32);
+        bufp->chgCData(oldp+84,(vlSelf->PipelineCPU__DOT__write_reg_MEM_WB),5);
+        bufp->chgBit(oldp+85,(vlSelf->PipelineCPU__DOT__reg_write_MEM_WB));
     }
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[4U])) {
+        bufp->chgIData(oldp+86,(vlSelf->PipelineCPU__DOT__pc_branch),32);
         bufp->chgBit(oldp+87,(((vlSelf->PipelineCPU__DOT__reg_readData1_mux 
                                 == vlSelf->PipelineCPU__DOT__reg_readData2_mux)
                                 ? 1U : 0U)));
@@ -214,7 +214,10 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
                              [(0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                         >> 0x14U))]),32);
     bufp->chgIData(oldp+138,(vlSelf->PipelineCPU__DOT__mem_read_data),32);
-    bufp->chgIData(oldp+139,(((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
+    bufp->chgIData(oldp+139,(((IData)(vlSelf->PipelineCPU__DOT__PCorR1)
+                               ? vlSelf->PipelineCPU__DOT__reg_readData1_mux
+                               : vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t)),32);
+    bufp->chgIData(oldp+140,(((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                ? ((IData)(4U) + vlSelf->PipelineCPU__DOT__pc_current)
                                : ((1U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                    ? vlSelf->PipelineCPU__DOT__pc_branch

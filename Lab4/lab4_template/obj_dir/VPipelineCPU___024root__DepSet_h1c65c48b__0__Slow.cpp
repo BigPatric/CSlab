@@ -206,6 +206,11 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
         vlSelf->PipelineCPU__DOT__Flush_HD = 1U;
         vlSelf->PipelineCPU__DOT__RePC = 1U;
     }
+    __Vtableidx2 = (((IData)(vlSelf->PipelineCPU__DOT__funct7_ID_EX) 
+                     << 5U) | (((IData)(vlSelf->PipelineCPU__DOT__funct3_ID_EX) 
+                                << 2U) | (IData)(vlSelf->PipelineCPU__DOT__alu_op_ID_EX)));
+    vlSelf->PipelineCPU__DOT__alu_control = VPipelineCPU__ConstPool__TABLE_hc2a4223b_0
+        [__Vtableidx2];
     vlSelf->PipelineCPU__DOT__imm = ((0x40U & vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t)
                                       ? ((0x20U & vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t)
                                           ? ((0x10U 
@@ -393,11 +398,6 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
                                                             >> 0x14U))
                                                          : 0U)
                                                         : 0U))))));
-    __Vtableidx2 = (((IData)(vlSelf->PipelineCPU__DOT__funct7_ID_EX) 
-                     << 5U) | (((IData)(vlSelf->PipelineCPU__DOT__funct3_ID_EX) 
-                                << 2U) | (IData)(vlSelf->PipelineCPU__DOT__alu_op_ID_EX)));
-    vlSelf->PipelineCPU__DOT__alu_control = VPipelineCPU__ConstPool__TABLE_hc2a4223b_0
-        [__Vtableidx2];
     vlSelf->PipelineCPU__DOT__ex_ForwardA = 0U;
     if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
           & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
@@ -494,14 +494,6 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
         [0x1eU];
     vlSelf->r[0x1fU] = vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
         [0x1fU];
-    vlSelf->PipelineCPU__DOT__id_ForwardA = 0U;
-    if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
-          & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
-         & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
-            == (0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                         >> 0xfU))))) {
-        vlSelf->PipelineCPU__DOT__id_ForwardA = 1U;
-    }
     vlSelf->PipelineCPU__DOT__id_ForwardB = 0U;
     if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
           & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
@@ -510,9 +502,14 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
                          >> 0x14U))))) {
         vlSelf->PipelineCPU__DOT__id_ForwardB = 1U;
     }
-    vlSelf->PipelineCPU__DOT__pc_branch = (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t 
-                                           + (vlSelf->PipelineCPU__DOT__imm 
-                                              << 1U));
+    vlSelf->PipelineCPU__DOT__id_ForwardA = 0U;
+    if ((((IData)(vlSelf->PipelineCPU__DOT__reg_write_EX_MEM) 
+          & (0U != (IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM))) 
+         & ((IData)(vlSelf->PipelineCPU__DOT__write_reg_EX_MEM) 
+            == (0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+                         >> 0xfU))))) {
+        vlSelf->PipelineCPU__DOT__id_ForwardA = 1U;
+    }
     vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX_mux 
         = ((0U == (IData)(vlSelf->PipelineCPU__DOT__ex_ForwardA))
             ? vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX
@@ -529,14 +526,6 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
                 : ((2U == (IData)(vlSelf->PipelineCPU__DOT__ex_ForwardB))
                     ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
                     : 0U)));
-    vlSelf->PipelineCPU__DOT__reg_readData1_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardA)
-                                                    ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
-                                                    : 
-                                                   vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
-                                                   [
-                                                   (0x1fU 
-                                                    & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
-                                                       >> 0xfU))]);
     vlSelf->PipelineCPU__DOT__reg_readData2_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardB)
                                                     ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
                                                     : 
@@ -545,6 +534,14 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
                                                    (0x1fU 
                                                     & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                                        >> 0x14U))]);
+    vlSelf->PipelineCPU__DOT__reg_readData1_mux = ((IData)(vlSelf->PipelineCPU__DOT__id_ForwardA)
+                                                    ? vlSelf->PipelineCPU__DOT__alu_result_EX_MEM
+                                                    : 
+                                                   vlSelf->PipelineCPU__DOT__m_Register__DOT__regs
+                                                   [
+                                                   (0x1fU 
+                                                    & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
+                                                       >> 0xfU))]);
     vlSelf->PipelineCPU__DOT__alu_src_b = ((IData)(vlSelf->PipelineCPU__DOT__alu_src_ID_EX)
                                             ? vlSelf->PipelineCPU__DOT__imm_ID_EX
                                             : vlSelf->PipelineCPU__DOT__reg_read_data2_ID_EX_mux);
@@ -614,6 +611,11 @@ VL_ATTR_COLD void VPipelineCPU___024root___stl_sequent__TOP__0(VPipelineCPU___02
                                                    : 
                                                   (vlSelf->PipelineCPU__DOT__reg_read_data1_ID_EX_mux 
                                                    + vlSelf->PipelineCPU__DOT__alu_src_b)))));
+    vlSelf->PipelineCPU__DOT__pc_branch = (((IData)(vlSelf->PipelineCPU__DOT__PCorR1)
+                                             ? vlSelf->PipelineCPU__DOT__reg_readData1_mux
+                                             : vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t) 
+                                           + (vlSelf->PipelineCPU__DOT__imm 
+                                              << 1U));
     vlSelf->PipelineCPU__DOT__pc_next = ((IData)(vlSelf->PipelineCPU__DOT__RePC)
                                           ? vlSelf->PipelineCPU__DOT__pc_current
                                           : ((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
