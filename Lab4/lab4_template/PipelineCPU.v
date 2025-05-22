@@ -212,7 +212,7 @@ Mux3to1 #(.size(32)) m_Mux_PC_Jump(
 Mux2to1 #(.size(32)) m_Mux_PC(
     .sel(RePC),
     .s0(pc_S_out),
-    .s1(pc_current),
+    .s1(pc_current_IF_ID),
     .out(pc_next)
 );
 
