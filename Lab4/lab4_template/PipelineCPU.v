@@ -82,7 +82,7 @@ wire RePC;
 wire Flush_HD;
 HazardDetection hazard_detection_unit(
     .opcode(instruct_IF_ID[6:0]),
-    .memtoReg(mem_to_reg),
+    .memtoReg(mem_to_reg_EX_MEM),
     .id_R1(instruct_IF_ID[19:15]),
     .id_R2(instruct_IF_ID[24:20]),
     .ex_Rd(writeReg_ID_EX),
