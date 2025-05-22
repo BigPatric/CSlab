@@ -25,22 +25,19 @@ module HazardDetection(
     // Data hazards can arise when a branch instruction depends on the result of previous instructions,
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
-    always @(*) begin
+    always @(*)begin
         RePC = 0;
         Flush_HD = 0;
 
-        // load-use hazard 
-        if (ID_EX_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1) || (ex_Rd == id_R2))) begin
+        if(mem_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1)||(ex_Rd == id_R2)))begin
+            RePC = 1; // re-fetch the flushed instruction
+            Flush_HD = 1; // flush IF/ID reg & ID/EX reg
+        end
+        if ((opcode == 7'b1100011) && mem_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1) || (ex_Rd == id_R2))) begin
             RePC = 1;
             Flush_HD = 1;
         end
-        // branch hazard 
-        if ((opcode == 7'b1100011) && ID_EX_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1) || (ex_Rd == id_R2))) begin
-            RePC = 1;
-            Flush_HD = 1;
-        end
-        // JALR hazard 
-        if ((opcode == 7'b1100111) && ID_EX_MemRead && (ex_Rd != 0) && (ex_Rd == id_R1)) begin
+        if ((opcode == 7'b1100111) && mem_MemRead && (ex_Rd != 0) && (ex_Rd == id_R1)) begin
             RePC = 1;
             Flush_HD = 1;
         end
