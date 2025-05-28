@@ -40,7 +40,11 @@ module HazardDetection(
         end else if( memtoReg == 2'b10 && opcode ==7'b1100111 && (mem_Rd == id_R1) && mem_Rd != 0)begin
             RePC = 1'b1;
             Flush_HD = 1'b1;
-        end else begin
+        end else if ((ex_Rd == 5'd1 || mem_Rd == 5'd1) && opcode == 7'b1101111 && (ex_Rd != 0 || mem_Rd != 0)) begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end
+        else begin
             RePC = 0;
             Flush_HD = 0;
         end
