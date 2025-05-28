@@ -26,31 +26,24 @@ module HazardDetection(
     // such as when the values being compared in a branch are not yet computed.
     // In such cases, if forwarding cannot resolve the hazard, you may need to insert a stall to avoid incorrect execution.
     always @(*) begin
-        // RePC = 1'b0;
-        // Flush_HD = 1'b0;
-        // if((ex_Rd == id_R1 || ex_Rd == id_R2 ) && opcode == 7'b1100011 && ex_Rd != 0) begin // branch
-        //     RePC = 1'b1;
-        //     Flush_HD = 1'b1;
-        // end else if( ID_EX_MemRead == 1 && (ex_Rd == id_R1 || ex_Rd == id_R2 ) && ex_Rd != 0) begin
-        //     RePC = 1'b1;
-        //     Flush_HD = 1'b1;
-        // end else if( mem_MemRead == 1 && opcode == 7'b1100011 && mem_Rd != 0) begin
-        //     RePC = 1'b1;
-        //     Flush_HD = 1'b1;
-        // end else if( memtoReg == 2'b10 && opcode ==7'b1100111 && (mem_Rd == id_R1) && mem_Rd != 0)begin
-        //     RePC = 1'b1;
-        //     Flush_HD = 1'b1;
-        // end else begin
-        //     RePC = 0;
-        //     Flush_HD = 0;
-        // end
         RePC = 1'b0;
         Flush_HD = 1'b0;
-        if (ID_EX_MemRead && (ex_Rd != 0) && ((ex_Rd == id_R1) || (ex_Rd == id_R2))) begin
+        if((ex_Rd == id_R1 || ex_Rd == id_R2 ) && opcode == 7'b1100011 && ex_Rd != 0) begin 
             RePC = 1'b1;
             Flush_HD = 1'b1;
+        end else if( ID_EX_MemRead == 1 && (ex_Rd == id_R1 || ex_Rd == id_R2 ) && ex_Rd != 0) begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else if( mem_MemRead == 1 && opcode == 7'b1100011 && mem_Rd != 0) begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else if( memtoReg == 2'b10 && opcode ==7'b1100111 && (mem_Rd == id_R1) && mem_Rd != 0)begin
+            RePC = 1'b1;
+            Flush_HD = 1'b1;
+        end else begin
+            RePC = 0;
+            Flush_HD = 0;
         end
     end
-
 
 endmodule
