@@ -12,6 +12,8 @@ CacheManager::CacheManager(Memory *memory, Cache *cache){
     cache->set_block_size(4);
     tag_bits = 32 - log2(cache->get_len()) - 2;
 };
+CacheManager::~CacheManager(){
+}
 
 unsigned int CacheManager::read(unsigned int addr){
     // TODO:: implement replacement policy and return value 
