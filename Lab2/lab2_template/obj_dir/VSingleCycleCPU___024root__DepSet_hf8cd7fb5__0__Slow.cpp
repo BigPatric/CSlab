@@ -269,18 +269,19 @@ VL_ATTR_COLD void VSingleCycleCPU___024root___stl_sequent__TOP__0(VSingleCycleCP
                                                     (((- (IData)(
                                                                  (vlSelf->SingleCycleCPU__DOT__instruct 
                                                                   >> 0x1fU))) 
-                                                      << 0x15U) 
-                                                     | ((0x100000U 
+                                                      << 0x14U) 
+                                                     | ((0x80000U 
                                                          & (vlSelf->SingleCycleCPU__DOT__instruct 
-                                                            >> 0xbU)) 
-                                                        | ((0xff000U 
-                                                            & vlSelf->SingleCycleCPU__DOT__instruct) 
-                                                           | ((0x800U 
+                                                            >> 0xcU)) 
+                                                        | ((0x7f800U 
+                                                            & (vlSelf->SingleCycleCPU__DOT__instruct 
+                                                               >> 1U)) 
+                                                           | ((0x400U 
                                                                & (vlSelf->SingleCycleCPU__DOT__instruct 
-                                                                  >> 9U)) 
-                                                              | (0x7feU 
+                                                                  >> 0xaU)) 
+                                                              | (0x3ffU 
                                                                  & (vlSelf->SingleCycleCPU__DOT__instruct 
-                                                                    >> 0x14U))))))
+                                                                    >> 0x15U))))))
                                                      : 0U)
                                                     : 0U)
                                                    : 0U)

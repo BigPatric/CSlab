@@ -26,8 +26,6 @@ class VPipelineCPU___024root final : public VerilatedModule {
         CData/*1:0*/ PipelineCPU__DOT__mem_to_reg_EX_MEM;
         CData/*0:0*/ PipelineCPU__DOT__RePC;
         CData/*0:0*/ PipelineCPU__DOT__Flush_HD;
-        CData/*0:0*/ PipelineCPU__DOT__flushCtrl;
-        CData/*0:0*/ PipelineCPU__DOT__PCorR1;
         CData/*0:0*/ PipelineCPU__DOT__reg_write_ID_EX;
         CData/*1:0*/ PipelineCPU__DOT__mem_to_reg_ID_EX;
         CData/*0:0*/ PipelineCPU__DOT__mem_read_ID_EX;
@@ -61,7 +59,6 @@ class VPipelineCPU___024root final : public VerilatedModule {
         CData/*0:0*/ __VactDidInit;
         CData/*0:0*/ __VactContinue;
         IData/*31:0*/ PipelineCPU__DOT__pc_current;
-        IData/*31:0*/ PipelineCPU__DOT__pc_next;
         IData/*31:0*/ PipelineCPU__DOT__pc_branch;
         IData/*31:0*/ PipelineCPU__DOT__imm;
         IData/*31:0*/ PipelineCPU__DOT__alu_result;
@@ -73,21 +70,23 @@ class VPipelineCPU___024root final : public VerilatedModule {
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_EX_MEM;
         IData/*31:0*/ PipelineCPU__DOT__reg_readData1_mux;
         IData/*31:0*/ PipelineCPU__DOT__reg_readData2_mux;
+        IData/*31:0*/ PipelineCPU__DOT__pc_S_out;
         IData/*31:0*/ PipelineCPU__DOT__pc_plus4_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data1_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__imm_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__instruct_ID_EX;
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data1_ID_EX_mux;
-    };
-    struct {
         IData/*31:0*/ PipelineCPU__DOT__reg_read_data2_ID_EX_mux;
         IData/*31:0*/ PipelineCPU__DOT__alu_result_MEM_WB;
+    };
+    struct {
         IData/*31:0*/ PipelineCPU__DOT__mem_read_data_MEM_WB;
         IData/*31:0*/ PipelineCPU__DOT__pc_plus4_MEM_WB;
         IData/*31:0*/ PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t;
         IData/*31:0*/ PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_4_t;
         IData/*31:0*/ PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t;
+        IData/*31:0*/ __Vdly__PipelineCPU__DOT__pc_current;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __Vtrigrprev__TOP__PipelineCPU__DOT__alu_result_EX_MEM;
         IData/*31:0*/ __VactIterCount;

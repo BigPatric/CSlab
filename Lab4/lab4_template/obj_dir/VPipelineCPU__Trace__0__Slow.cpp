@@ -99,7 +99,7 @@ VL_ATTR_COLD void VPipelineCPU___024root__trace_init_sub__TOP__0(VPipelineCPU___
     tracep->declBus(c+22,"pc_plus4_MEM_WB", false,-1, 31,0);
     tracep->pushNamePrefix("hazard_detection_unit ");
     tracep->declBus(c+73,"opcode", false,-1, 6,0);
-    tracep->declBus(c+97,"memtoReg", false,-1, 1,0);
+    tracep->declBus(c+5,"memtoReg", false,-1, 1,0);
     tracep->declBus(c+76,"id_R1", false,-1, 4,0);
     tracep->declBus(c+77,"id_R2", false,-1, 4,0);
     tracep->declBus(c+81,"ex_Rd", false,-1, 4,0);
@@ -282,7 +282,7 @@ VL_ATTR_COLD void VPipelineCPU___024root__trace_init_sub__TOP__0(VPipelineCPU___
     tracep->declBus(c+148,"size", false,-1, 31,0);
     tracep->declBit(c+71,"sel", false,-1);
     tracep->declBus(c+144,"s0", false,-1, 31,0);
-    tracep->declBus(c+57,"s1", false,-1, 31,0);
+    tracep->declBus(c+6,"s1", false,-1, 31,0);
     tracep->declBus(c+139,"out", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("m_Mux_PC_Branch ");
@@ -536,8 +536,8 @@ VL_ATTR_COLD void VPipelineCPU___024root__trace_full_sub_0(VPipelineCPU___024roo
     bufp->fullCData(oldp+98,((3U & ((IData)(vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl) 
                                     >> 3U))),2);
     bufp->fullCData(oldp+99,(vlSelf->PipelineCPU__DOT__pc_sel),2);
-    bufp->fullBit(oldp+100,(vlSelf->PipelineCPU__DOT__flushCtrl));
-    bufp->fullBit(oldp+101,(vlSelf->PipelineCPU__DOT__PCorR1));
+    bufp->fullBit(oldp+100,((0U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))));
+    bufp->fullBit(oldp+101,((1U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))));
     bufp->fullIData(oldp+102,(vlSelf->PipelineCPU__DOT__reg_readData1_mux),32);
     bufp->fullIData(oldp+103,(vlSelf->PipelineCPU__DOT__reg_readData2_mux),32);
     bufp->fullCData(oldp+104,(vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl),8);
@@ -576,7 +576,7 @@ VL_ATTR_COLD void VPipelineCPU___024root__trace_full_sub_0(VPipelineCPU___024roo
     bufp->fullIData(oldp+137,(vlSelf->r[30]),32);
     bufp->fullIData(oldp+138,(vlSelf->r[31]),32);
     bufp->fullIData(oldp+139,(((IData)(vlSelf->PipelineCPU__DOT__RePC)
-                                ? vlSelf->PipelineCPU__DOT__pc_current
+                                ? vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t
                                 : ((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                     ? ((IData)(4U) 
                                        + vlSelf->PipelineCPU__DOT__pc_current)
@@ -592,7 +592,7 @@ VL_ATTR_COLD void VPipelineCPU___024root__trace_full_sub_0(VPipelineCPU___024roo
                               [(0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                          >> 0x14U))]),32);
     bufp->fullIData(oldp+142,(vlSelf->PipelineCPU__DOT__mem_read_data),32);
-    bufp->fullIData(oldp+143,(((IData)(vlSelf->PipelineCPU__DOT__PCorR1)
+    bufp->fullIData(oldp+143,(((1U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                 ? vlSelf->PipelineCPU__DOT__reg_readData1_mux
                                 : vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t)),32);
     bufp->fullIData(oldp+144,(((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))

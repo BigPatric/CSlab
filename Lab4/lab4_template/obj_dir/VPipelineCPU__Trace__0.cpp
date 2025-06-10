@@ -163,8 +163,8 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
         bufp->chgCData(oldp+97,((3U & ((IData)(vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl) 
                                        >> 3U))),2);
         bufp->chgCData(oldp+98,(vlSelf->PipelineCPU__DOT__pc_sel),2);
-        bufp->chgBit(oldp+99,(vlSelf->PipelineCPU__DOT__flushCtrl));
-        bufp->chgBit(oldp+100,(vlSelf->PipelineCPU__DOT__PCorR1));
+        bufp->chgBit(oldp+99,((0U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))));
+        bufp->chgBit(oldp+100,((1U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))));
         bufp->chgIData(oldp+101,(vlSelf->PipelineCPU__DOT__reg_readData1_mux),32);
         bufp->chgIData(oldp+102,(vlSelf->PipelineCPU__DOT__reg_readData2_mux),32);
         bufp->chgCData(oldp+103,(vlSelf->PipelineCPU__DOT__m_Control__DOT__crtl),8);
@@ -204,7 +204,7 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
     bufp->chgIData(oldp+136,(vlSelf->r[30]),32);
     bufp->chgIData(oldp+137,(vlSelf->r[31]),32);
     bufp->chgIData(oldp+138,(((IData)(vlSelf->PipelineCPU__DOT__RePC)
-                               ? vlSelf->PipelineCPU__DOT__pc_current
+                               ? vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t
                                : ((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                    ? ((IData)(4U) + vlSelf->PipelineCPU__DOT__pc_current)
                                    : ((1U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
@@ -219,7 +219,7 @@ void VPipelineCPU___024root__trace_chg_sub_0(VPipelineCPU___024root* vlSelf, Ver
                              [(0x1fU & (vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__inst_t 
                                         >> 0x14U))]),32);
     bufp->chgIData(oldp+141,(vlSelf->PipelineCPU__DOT__mem_read_data),32);
-    bufp->chgIData(oldp+142,(((IData)(vlSelf->PipelineCPU__DOT__PCorR1)
+    bufp->chgIData(oldp+142,(((1U != (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
                                ? vlSelf->PipelineCPU__DOT__reg_readData1_mux
                                : vlSelf->PipelineCPU__DOT__m_IF_ID_Reg__DOT__pc_t)),32);
     bufp->chgIData(oldp+143,(((0U == (IData)(vlSelf->PipelineCPU__DOT__pc_sel))
