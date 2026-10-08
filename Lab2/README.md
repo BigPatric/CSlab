@@ -178,6 +178,9 @@ sudo apt-get install zip
 zip -rq lab2_<student_id>.zip lab2_<student_id>
 ```
 
+> [!NOTE]
+> Replace `<student_id>` with your own student ID. Do not commit student-specific submission folders (for example, `lab2_112550054`) directly into the repository.
+
 After creating the zip file, you can verify its contents and folder structure by running:
 
 ```bash
